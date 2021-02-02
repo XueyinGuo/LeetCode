@@ -1,4 +1,4 @@
-package com.szu.leetcode.tree.bi_search_tree;
+package com.szu.leetcode.tree.binary_search_tree;
 
 import java.util.ArrayList;
 import java.util.List;

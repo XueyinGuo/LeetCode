@@ -1,4 +1,4 @@
-package com.szu.leetcode.tree.linked_list;
+package com.szu.leetcode.list.linked_list;
 
 import java.util.Iterator;
 import java.util.LinkedList;
