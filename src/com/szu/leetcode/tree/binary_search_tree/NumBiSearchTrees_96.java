@@ -50,7 +50,5 @@ public class NumBiSearchTrees_96 {
 
     public static void main(String[] args) {
         System.out.println(new NumBiSearchTrees_96().numTrees(10));
-        Stack<Object> objects = new Stack<>();
-
     }
 }
