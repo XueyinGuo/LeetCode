@@ -1,5 +1,7 @@
 package com.szu.leetcode.tree.binary_tree;
 
+import com.szu.leetcode.utils.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,4 @@ public class PathSum_113 {
         cur.remove(cur.size() - 1);
     }
 
-}
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
 }
