@@ -11,8 +11,20 @@ package com.szu.practice;
 * */
 public class RobotWalk {
     public static void main(String[] args) {
-        int ways = walk(5, 2,6,4);
-        System.out.println(ways);
+//        int ways = walk(100, 10,300,4);
+//        System.out.println(ways);
+
+        int rest = 20;
+        int n = 30;
+        int dp[][] = new int[n + 1][rest + 1];
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= rest; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        int wasWithStupidMemory = walkWithStupidMemory(n, 10, rest, 4, dp);
+
+        System.out.println(wasWithStupidMemory);
     }
 
     private static int walk(int n, int cur, int rest, int des) {
@@ -35,5 +47,35 @@ public class RobotWalk {
         return forward + backward;
     }
 
+    private static int walkWithStupidMemory(int n, int cur, int rest, int des, int[][] dp) {
+
+
+        if (dp[cur][rest] != -1){
+            return dp[cur][rest];
+        }
+        // 没有剩余步数可以走了，走没走到 目的地呢？ 走到了就是一种方案，没走到就不是一种方案
+        if (rest == 0){
+            return des == cur ? 1:0;
+        }
+        // 当位于第一个位置时，只能向前走
+        int ans = -1;
+        if (cur == 1){
+            ans = walkWithStupidMemory(n, cur + 1, rest - 1, des,dp);
+        }
+        // 当位于最后一个位置时，只能往后走
+        else if (cur == n){
+            ans = walkWithStupidMemory(n, cur - 1, rest - 1, des,dp);
+        }else{
+            // 有可能往前走
+            ans = walkWithStupidMemory(n, cur + 1, rest - 1, des,dp) +
+                    // 有可能往后走
+                    walkWithStupidMemory(n, cur - 1, rest - 1, des,dp);
+        }
+
+
+        dp[cur][rest] = ans;
+
+        return ans;
+    }
 
 }
