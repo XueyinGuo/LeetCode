@@ -5,39 +5,39 @@ import java.util.List;
 
 // TODO 未完成
 public class CoinChange_322 {
-    List<Integer> list = new ArrayList<Integer>();
+    List<Integer> minList ;
+
 
     public int coinChange(int[] coins, int amount) {
-        int min = Integer.MAX_VALUE;
-        doCoinChange(coins, amount, min, 0);
-
-//        if (min == Integer.MAX_VALUE){
-//            return -1;
-//        }
-        return list.get(0);
+        minList = new ArrayList<>(1);
+        minList.add(0, Integer.MAX_VALUE);
+        doCoinChange(coins, amount, 0, 0);
+        Integer min = minList.get(0);
+        if (min == Integer.MAX_VALUE){
+            return -1;
+        }
+        return min;
     }
 
 
-    public int doCoinChange(int[] coins, int rest, int min, int coinNums) {
-        // 如果已经剩余金额小于0，则当前方案无效
+    public int doCoinChange(int[] coins, int rest, int index, int coinNum) {
+
         if (rest < 0){
             return -1;
         }
-        if (rest == 0){
-            return 1;
+        if (index == coins.length){
+            return rest == 0 ? 1 : 0;
         }
-
-        for (int coin: coins) {
-            int valid = doCoinChange(coins, rest - coin, min, coinNums + 1);
-            if (valid != -1){
-                min = coinNums + 1 < min ? coinNums + 1 : min;
-                if (!list.isEmpty()){
-                    list.remove(0);
-                }
-                list.add(min);
+        int valid = 0;
+        Integer min = minList.get(0);
+        for (int zhang = 1; coins[index] * zhang <= rest; zhang++) {
+            valid = doCoinChange(coins, rest - coins[index] * zhang, index+1, coinNum + 1);
+            if (valid == 1){
+                min = coinNum + 1 < min ? coinNum + 1 : min;
             }
         }
-        return 1;
+        minList.set(0, min);
+        return 0;
     }
 
     public static void main(String[] args) {
