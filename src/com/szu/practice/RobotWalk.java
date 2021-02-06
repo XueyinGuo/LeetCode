@@ -46,7 +46,9 @@ public class RobotWalk {
         int backward = walk(n, cur - 1, rest - 1, des);
         return forward + backward;
     }
-
+    /*
+    * 记忆化搜索
+    * */
     private static int walkWithStupidMemory(int n, int cur, int rest, int des, int[][] dp) {
 
 
