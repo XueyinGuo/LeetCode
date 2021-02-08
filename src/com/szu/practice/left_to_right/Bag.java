@@ -14,12 +14,58 @@ public class Bag {
 
 
     public static void main(String[] args) {
-        int[] weights = { 3, 2, 4, 7, 3, 1, 7 ,5};
-        int[] values = { 5, 6, 3, 19, 12, 4, 2 ,10};
-        int bag = 16;
+        int[] weights = { 3, 2, 4, 7, 7,  8  , 4};
+        int[] values = { 5, 6, 3, 19, 16, 12,  6};
+        int bag = 17;
         int maxValue = findMaxValue(weights, values, bag, 0, 0);
+        int maxValue1 = findMaxValueUseRest(weights, values, bag,0 , 0);
+
+        int maxValue2 = useDp(weights, values, bag);
         System.out.println(maxValue);
+        System.out.println(maxValue1);
+        System.out.println(maxValue2);
     }
+
+    /*
+     * 动态规划做法
+     * rest : 剩余空间大小
+     * */
+    private static int useDp(int[] weights, int[] values, int bag) {
+        int index = weights.length;
+        int dp[][] = new int[bag+1][index+1];
+        for (int i = index-1; i >= 0 ; i--) {
+            for (int rest = 0; rest <= bag ; rest++) {
+
+                int no = dp[rest][i+1];
+                int yes = -1;
+                if (rest - weights[i] >= 0){
+                    yes = values[i] + dp[rest - weights[i]][i + 1];
+                }
+                dp[rest][i] = Math.max(yes, no);
+            }
+        }
+        return dp[bag][0];
+    }
+
+
+    /*
+     * index : 当前来到哪个货物做决策
+     * rest : 剩余空间大小
+     * */
+    private static int findMaxValueUseRest(int[] weights, int[] values, int rest, int curValue, int index) {
+        if (rest < 0){
+            return -1;
+        }
+        if (index == values.length){
+            return curValue;
+        }
+        int yes = findMaxValueUseRest(weights, values, rest - weights[index], curValue + values[index] , index + 1);
+        int no = findMaxValueUseRest(weights, values, rest, curValue,index + 1);
+        return yes != -1 ? Math.max(yes, no) : no;
+    }
+
+
+
     /*
     * curWeight : 当前已经装的重量
     * index : 当前来到哪个货物做决策
