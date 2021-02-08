@@ -14,17 +14,40 @@ public class RobotWalk {
 //        int ways = walk(100, 10,300,4);
 //        System.out.println(ways);
 
-        int rest = 20;
-        int n = 30;
+        int rest = 10;
+        int n = 10;
         int dp[][] = new int[n + 1][rest + 1];
         for (int i = 0; i <= n; i++) {
             for (int j = 0; j <= rest; j++) {
                 dp[i][j] = -1;
             }
         }
-        int wasWithStupidMemory = walkWithStupidMemory(n, 10, rest, 4, dp);
-
+        int wasWithStupidMemory = walkWithStupidMemory(n, 8, rest, 4, dp);
+        int wasWithdp = walkWithDP(n,8,  rest,4);
         System.out.println(wasWithStupidMemory);
+        System.out.println(wasWithdp);
+    }
+
+    /*
+    * N 个位置，
+    * 初始位置 cur，
+    * 走 rest步，
+    * 到 dest
+    * dp[][] =  int[n + 1][rest + 1]
+    * */
+    private static int walkWithDP(int N, int cur, int rest,int dest) {
+        int dp[][] = new int[N + 1][rest + 1];
+        dp[dest][0] = 1;
+        for (int r = 1; r <= rest; r++) {
+            dp[1][r] = dp[2][r-1];
+            for (int n = 1; n < N; n++) {
+                dp[n][r] = dp[n - 1][r - 1] + dp[n + 1][r - 1];
+            }
+            dp[N][r] = dp[N-1][r-1];
+        }
+
+
+        return dp[cur][rest];
     }
 
     private static int walk(int n, int cur, int rest, int des) {
@@ -34,7 +57,7 @@ public class RobotWalk {
         }
         // 当位于第一个位置时，只能向前走
         if (cur == 1){
-            return walk(n, cur + 1, rest - 1, des);
+            return walk(n, 2, rest - 1, des);
         }
         // 当位于最后一个位置时，只能往后走
         if (cur == n){
@@ -48,8 +71,6 @@ public class RobotWalk {
     }
 
     private static int walkWithStupidMemory(int n, int cur, int rest, int des, int[][] dp) {
-
-
         if (dp[cur][rest] != -1){
             return dp[cur][rest];
         }
@@ -71,10 +92,7 @@ public class RobotWalk {
                     // 有可能往后走
                     walkWithStupidMemory(n, cur - 1, rest - 1, des,dp);
         }
-
-
         dp[cur][rest] = ans;
-
         return ans;
     }
 
