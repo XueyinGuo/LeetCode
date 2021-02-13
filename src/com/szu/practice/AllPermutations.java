@@ -12,11 +12,11 @@ public class AllPermutations {
 
 
     public static void main(String[] args) {
-        String s = "hello world";
+        String s = "hell";
         List<String> stringList = findPermutations(s);
-//        for (String str : stringList) {
-//            System.out.println(str);
-//        }
+        for (String str : stringList) {
+            System.out.println(str);
+        }
         // 1 2 6 24 120 720 5040 40320 362880 3628800 39916800
         System.out.println(stringList.size());
     }
