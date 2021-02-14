@@ -19,11 +19,13 @@ public class Bag {
         int bag = 17;
         int maxValue = findMaxValue(weights, values, bag, 0, 0);
         int maxValue1 = findMaxValueUseRest(weights, values, bag,0 , 0);
+        int maxValue3 = findMaxValueUseDp(weights, values, bag);
 
         int maxValue2 = useDp(weights, values, bag);
         System.out.println(maxValue);
         System.out.println(maxValue1);
         System.out.println(maxValue2);
+        System.out.println(maxValue3);
     }
 
     /*
@@ -64,7 +66,25 @@ public class Bag {
         return yes != -1 ? Math.max(yes, no) : no;
     }
 
+    public static int findMaxValueUseDp(int[] w, int[] v, int bag){
+        if (w.length != v.length || bag <= 0){
+            return 0;
+        }
+        int N = w.length;
+        int[][] dp = new int[N+1][bag+1];
 
+        for (int n = N-1; n >= 0 ; n--) {
+            for (int r = 0; r <= bag; r++) {
+                int no = dp[n+1][bag];
+                int yes = -1;
+                if (r - w[n] >= 0){
+                    yes = dp[n+1][r - w[n]] + v[n];
+                }
+                dp[n][r] = Math.max(yes, no);
+            }
+        }
+        return dp[0][bag];
+    }
 
     /*
     * curWeight : 当前已经装的重量

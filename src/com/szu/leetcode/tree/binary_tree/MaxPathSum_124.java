@@ -1,4 +1,5 @@
-package com.szu.leetcode.tree.binary_tree;/*
+package com.szu.leetcode.tree.binary_tree;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
@@ -32,6 +33,5 @@ public class MaxPathSum_124 {
         MaxPathSum_124 maxPathSum_124 = new MaxPathSum_124();
         TreeNode root = new TreeNode(2, new TreeNode(-1), null);
         System.out.println(maxPathSum_124.maxPathSum(root));
-
     }
 }
