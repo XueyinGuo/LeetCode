@@ -22,6 +22,9 @@ package com.szu.leetcode.list.array;
  * @Date 2021/2/14 0:09
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchRange_34 {
 
     public int[] searchRange(int[] nums, int target) {
@@ -67,6 +70,11 @@ public class SearchRange_34 {
         }else{
             return doSearch(nums, target, mid + 1, r);
         }
+    }
+
+    public static void main(String[] args) {
+        List<char[]> list = new ArrayList<>();
+
     }
 
 }
