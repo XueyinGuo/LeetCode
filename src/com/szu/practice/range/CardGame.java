@@ -8,9 +8,11 @@ package com.szu.practice.range;
 * */
 public class CardGame {
     public static void main(String[] args) {
-        int[] arr = { 5, 7, 4, 5, 8, 1, 6, 0, 3, 4, 6, 1, 7 ,100,6, 5,7,9,15,64,7};
+        int[] arr = {1,2,3,4,5,6,7,8,9,10,11,12,13};
         int score = getMaxScore(arr);
+        int scoreDp = getMaxScoreUseDp(arr);
         System.out.println(score);
+        System.out.println(scoreDp);
     }
 
     private static int getMaxScore(int[] arr) {
@@ -47,5 +49,23 @@ public class CardGame {
         return Math.min(getLeft, getRight); //对手一定会给你留下最差的分数
     }
 
-
+    public static int getMaxScoreUseDp(int[] arr){
+        int length = arr.length;
+        int s[][] = new int[length][length];
+        int f[][] = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            f[i][i] = arr[i];
+        }
+        for (int i = 1; i < length; i++) {
+            int L = 0;
+            int R = i;
+            while (L < length && R < length){
+                f[L][R] = Math.max(arr[L] + s[L+1][R] , arr[R] + s[L][R-1]);
+                s[L][R] =  Math.min( f[L+1][R], f[L][R-1] );
+                L++;
+                R++;
+            }
+        }
+        return Math.max(f[0][length-1], s[0][length-1]);
+    }
 }

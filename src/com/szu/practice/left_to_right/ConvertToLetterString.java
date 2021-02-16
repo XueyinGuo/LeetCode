@@ -9,7 +9,9 @@ public class ConvertToLetterString {
     public static void main(String[] args) {
         String nums = "123456793213254651321543213245648351321";
         int sum = count(nums);
+        int sumdp = countDp(nums.toCharArray());
         System.out.println(sum);
+        System.out.println(sumdp);
     }
 
     private static int count(String nums) {
@@ -22,7 +24,6 @@ public class ConvertToLetterString {
     }
 
     private static int doCount(char[] chars, int index) {
-
         if (index == chars.length){
             return 1;
         }
@@ -35,8 +36,20 @@ public class ConvertToLetterString {
         if (index + 1 < chars.length && chars[index] - '0' < 3 && chars[index + 1] - '0' < 7){
             sum += doCount(chars, index + 2);
         }
-
-
         return sum;
+    }
+
+    public static int countDp(char[] chars){
+        int length = chars.length;
+        int dp[] = new int[length + 1];
+        dp[length] = 1;
+        for (int i = length-1; i >= 0; i--) {
+            int sum = dp[i+1];
+            if (i + 1 < chars.length && chars[i] - '0' < 3 && chars[i + 1] - '0' < 7){
+                sum += dp[i+2];
+            }
+            dp[i] = sum;
+        }
+        return dp[0];
     }
 }
