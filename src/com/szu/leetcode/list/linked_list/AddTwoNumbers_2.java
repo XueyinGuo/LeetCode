@@ -15,6 +15,7 @@ package com.szu.leetcode.list.linked_list;/*
 
 public class AddTwoNumbers_2 {
 
+
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
         return doAdd(l1, l2, false);
