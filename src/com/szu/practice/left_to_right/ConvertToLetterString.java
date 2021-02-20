@@ -7,7 +7,7 @@ package com.szu.practice.left_to_right;
 public class ConvertToLetterString {
 
     public static void main(String[] args) {
-        String nums = "123456793213254651321543213245648351321";
+        String nums = "123456793213254651321544531358765432154689754132548764621549879465431654987946132165467987456463213245648351321";
         int sum = count(nums);
         int sumdp = countDp(nums.toCharArray());
         System.out.println(sum);

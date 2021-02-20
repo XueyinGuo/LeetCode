@@ -12,7 +12,7 @@ public class AllPermutations {
 
 
     public static void main(String[] args) {
-        String s = "hell";
+        String s = "hel";
         List<String> stringList = findPermutations(s);
         for (String str : stringList) {
             System.out.println(str);
