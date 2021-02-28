@@ -21,7 +21,6 @@ public class TwoCitySchedCost_1029 {
 
 
 
-
         int total = 0;
         int n = costs.length / 2;
         for(int i = 0; i< n; i++){
