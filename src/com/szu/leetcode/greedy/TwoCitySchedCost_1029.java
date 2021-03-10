@@ -1,4 +1,5 @@
-package com.szu.leetcode.greedy;/*
+package com.szu.leetcode.greedy;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
@@ -18,8 +19,6 @@ public class TwoCitySchedCost_1029 {
             }
 
         } );
-
-
 
 
         int total = 0;
