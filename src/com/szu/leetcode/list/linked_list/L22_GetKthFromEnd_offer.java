@@ -4,7 +4,7 @@ package com.szu.leetcode.list.linked_list;
  * 剑指 Offer 22. 链表中倒数第k个节点
  * */
 
-public class GetKthFromEnd_22_offer {
+public class L22_GetKthFromEnd_offer {
 
     public ListNode getKthFromEnd(ListNode head, int k) {
         int total = 0;

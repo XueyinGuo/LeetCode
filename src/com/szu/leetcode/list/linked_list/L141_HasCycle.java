@@ -5,7 +5,7 @@ import java.util.Set;
 /*
 * 141. 环形链表
 * */
-public class HasCycle_141 {
+public class L141_HasCycle {
     Set<ListNode> set = new HashSet<>();
     // 使用一个Set 记录，每次把新遇到的节点先看看在 set 中有没有，
     // 没有的话就加到set中，然后看下一个节点
@@ -36,16 +36,3 @@ public class HasCycle_141 {
     }
 }
 
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-
-    public ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
-    }
-}

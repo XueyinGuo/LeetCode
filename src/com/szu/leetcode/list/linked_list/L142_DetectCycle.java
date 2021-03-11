@@ -1,6 +1,6 @@
 package com.szu.leetcode.list.linked_list;
 
-public class DetectCycle_142 {
+public class L142_DetectCycle {
 
     public ListNode detectCycle(ListNode head) {
         // 如果当前的头结点是空，或者只有一个节点，直接返回空
@@ -33,7 +33,7 @@ public class DetectCycle_142 {
     }
 
     public static void main(String[] args) {
-        DetectCycle_142 detectCycle_142 = new DetectCycle_142();
+        L142_DetectCycle detectCycle_142 = new L142_DetectCycle();
         ListNode listNode = new ListNode(3);
         detectCycle_142.detectCycle(listNode);
     }
