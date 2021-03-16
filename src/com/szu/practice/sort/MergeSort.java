@@ -12,7 +12,9 @@ public class MergeSort {
 
         int[] arr = {4,5,9,10,8,9,4};
         mergeSort(arr, 0,  arr.length-1);
-        System.out.println();
+        for (int i:arr) {
+            System.out.println(i);
+        }
     }
 
     private static void mergeSort(int[] arr, int low, int high) {
