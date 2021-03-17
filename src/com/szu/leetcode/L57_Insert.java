@@ -49,6 +49,8 @@ public class L57_Insert {
             }
 
         }
+        /* 遍历完所有的区间之后，都没能把新合成的区间或者本来就像插入但是跨度巨大的空间加入到结果集中，则在此处加入 */
+        // 比如【 【1,3】，【6,9】 】 中 插入 【-1， 20】
         if (!placed)
             ansList.add(new int[]{left, right});
 
