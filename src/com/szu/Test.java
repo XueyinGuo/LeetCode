@@ -5,9 +5,22 @@ package com.szu;/*
  * @Date 2021/3/12 13:19
  */
 
+import java.util.HashSet;
+
 public class Test {
 
     public static void main(String[] args) {
+
+
+        int[] a = {0,1};
+        int[] b = {0,1};
+        System.out.println(a == b);
+
+        HashSet<int[]> ints = new HashSet<>();
+        ints.add(a);
+        System.out.println(ints.contains(b));
+
+
         int[] arr = {2, 1, -1, 5, 4, 6, 8, 4, 6, 8, 9};
 
         mergeSort(arr, 0, arr.length - 1);
