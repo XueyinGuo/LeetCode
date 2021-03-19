@@ -1,4 +1,4 @@
-package com.szu.practice;
+package com.szu.practice.dp;
 /*
  * 背包问题
  *

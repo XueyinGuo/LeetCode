@@ -1,4 +1,4 @@
-package com.szu.practice;
+package com.szu.practice.dp;
 /*
 * 假设有排成一行的N个位置，记为 1~N， N一定大于等于2
 * 开始时机器人在其中的M位置上（M一定是 1~N中的一个）

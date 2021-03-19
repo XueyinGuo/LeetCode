@@ -1,4 +1,4 @@
-package com.szu.practice;
+package com.szu.practice.dp;
 /*
 * 规定1 和 A对应， 2 和 B对应， 3 和 C对应
 * 那么一个数字字符串比如 “111” 可以转换为 AAA 或者 KA 、 AK

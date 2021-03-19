@@ -1,4 +1,4 @@
-package com.szu.practice;
+package com.szu.practice.dp;
 /*
 * 给定一个整数数组，代表数值不同的纸牌排成一条线
 * 玩家 A， 玩家 B 依次拿走纸牌

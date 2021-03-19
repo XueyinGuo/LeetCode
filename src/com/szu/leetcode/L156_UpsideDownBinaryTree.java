@@ -5,7 +5,7 @@ package com.szu.leetcode;/*
  * @Date 2021/3/14 23:01
  */
 
-import com.szu.leetcode.utils.ArrayToTree;
+import com.szu.leetcode.utils.LeetCodes;
 import com.szu.leetcode.utils.TreeNode;
 
 public class L156_UpsideDownBinaryTree {
@@ -32,7 +32,7 @@ public class L156_UpsideDownBinaryTree {
     }
 
     public static void main(String[] args) {
-        TreeNode root = new ArrayToTree().arrayToTree(new int[]{1, 2, 3, 4, 5});
+        TreeNode root = new LeetCodes().arrayToTree(new int[]{1, 2, 3, 4, 5});
         new L156_UpsideDownBinaryTree().upsideDownBinaryTree(root);
     }
 

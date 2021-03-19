@@ -6,8 +6,9 @@ package com.szu.leetcode.utils;/*
  */
 
 import java.util.ArrayDeque;
+import java.util.Random;
 
-public class ArrayToTree {
+public class LeetCodes {
 
     public TreeNode arrayToTree(int[] arr){
 
@@ -27,6 +28,26 @@ public class ArrayToTree {
             queue.add(node.right);
         }
         return root;
+    }
+
+    /* 生成随机数组 */
+    public static int[] getRandomArray(int num, int bound) {
+        Random random = new Random();
+        int[] ret = new int[num];
+        for (int i = 0; i < num; i++) {
+            ret[i] = random.nextInt(bound);
+        }
+        return ret;
+    }
+
+    /* 打印当前数组中的值 */
+    public static void printArray(int[] arr) {
+        if (arr != null) {
+            for (int i = 0; i < arr.length; i++) {
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println();
+        }
     }
 
 }
