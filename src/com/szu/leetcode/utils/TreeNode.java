@@ -12,4 +12,8 @@ public class TreeNode {
         this.right = right;
     }
 
+    public static TreeNode charToTreeNode(char c){
+        if (c == '#') return null;
+        return new TreeNode(c - '0');
+    }
 }

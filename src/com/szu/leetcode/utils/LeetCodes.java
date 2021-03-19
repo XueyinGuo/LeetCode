@@ -9,11 +9,9 @@ import java.util.ArrayDeque;
 import java.util.Random;
 
 public class LeetCodes {
-
+    /* int数组变成树 */
     public TreeNode arrayToTree(int[] arr){
-
         if (arr.length==0 || arr == null) return null;
-
         TreeNode root = new TreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
@@ -24,6 +22,25 @@ public class LeetCodes {
             node.left = new TreeNode(arr[index++]);
             if(index == arr.length) break;
             node.right = new TreeNode(arr[index++]);
+            queue.add(node.left);
+            queue.add(node.right);
+        }
+        return root;
+    }
+
+    /* 字符数组转成树 */
+    public TreeNode charArrayToTree(char[] arr){
+        if (arr.length==0 || arr == null) return null;
+        TreeNode root = TreeNode.charToTreeNode(arr[0]);
+        ArrayDeque<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        int index = 1;
+        while (!queue.isEmpty() && index < arr.length){
+            TreeNode node = queue.poll();
+            if(index == arr.length) break;
+            node.left = TreeNode.charToTreeNode(arr[index++]);
+            if(index == arr.length) break;
+            node.right =TreeNode.charToTreeNode(arr[index++]);
             queue.add(node.left);
             queue.add(node.right);
         }
