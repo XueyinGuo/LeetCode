@@ -6,6 +6,7 @@ package com.szu.leetcode.utils;/*
  */
 
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Random;
 
 public class LeetCodes {
@@ -45,6 +46,18 @@ public class LeetCodes {
             queue.add(node.right);
         }
         return root;
+    }
+
+    /* 数组转换为链表 */
+    public ListNode arrayToListNode(int arr[]){
+        if (arr.length==0 || arr == null) return null;
+        ListNode head = new ListNode(arr[0]);
+        ListNode lastInsert = head;
+        for (int i = 1; i < arr.length; i++) {
+            lastInsert.next = new ListNode(arr[i]);
+            lastInsert = lastInsert.next;
+        }
+        return head;
     }
 
     /* 生成随机数组 */
