@@ -8,7 +8,7 @@ package com.szu.practice.dp;
  * 给定一个 bag 表示一个袋子的容量，装的货物的总量不能超过这个容量
  * 返回可以装下的最大价值
  * */
-// TODO 转成动态规划
+// TODO 动态规划有BUG
 public class Bag {
 
 

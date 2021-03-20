@@ -1,4 +1,5 @@
-package com.szu.leetcode.utils;/*
+package com.szu.leetcode.utils;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
@@ -6,7 +7,6 @@ package com.szu.leetcode.utils;/*
  */
 
 import java.util.ArrayDeque;
-import java.util.List;
 import java.util.Random;
 
 public class LeetCodes {
@@ -79,5 +79,37 @@ public class LeetCodes {
             System.out.println();
         }
     }
+
+    public static int[][] matrixPower(int[][] base, int power) {
+        int res[][] = new int[base.length][base[0].length];
+        for (int i = 0; i < res.length; i++) {
+            res[i][i] = 1;
+        }
+        int[][] t = base;
+        /* 快速幂， log(n)级别 */
+        while (power != 0){
+            if ((power & 1) != 0){
+                res = matrixMultiplication(res, t);
+            }
+            t = matrixMultiplication(t, t);
+            power = power >> 1;
+        }
+        return res;
+    }
+
+    /* 矩阵乘法 */
+    // TODO 矩阵不同维度的时候会报空指针异常
+    public static int[][] matrixMultiplication(int[][] m1, int[][] m2) {
+        int m[][] = new int[m1.length][m2[0].length];
+        for (int i = 0; i < m1.length; i++) {
+            for (int j = 0; j < m2[0].length; j++) {
+                for (int k = 0; k < m2[0].length; k++) {
+                    m[i][j] += m1[i][k] * m2[k][j];
+                }
+            }
+        }
+        return m;
+    }
+
 
 }
