@@ -7,11 +7,12 @@ package com.szu.leetcode.utils;
  */
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class LeetCodes {
     /* int数组变成树 */
-    public TreeNode arrayToTree(int[] arr){
+    public static TreeNode arrayToTree(int[] arr){
         if (arr.length==0 || arr == null) return null;
         TreeNode root = new TreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
@@ -30,7 +31,7 @@ public class LeetCodes {
     }
 
     /* 字符数组转成树 */
-    public TreeNode charArrayToTree(char[] arr){
+    public static TreeNode charArrayToTree(char[] arr){
         if (arr.length==0 || arr == null) return null;
         TreeNode root = TreeNode.charToTreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
@@ -49,7 +50,7 @@ public class LeetCodes {
     }
 
     /* 数组转换为链表 */
-    public ListNode arrayToListNode(int arr[]){
+    public static ListNode arrayToListNode(int arr[]){
         if (arr.length==0 || arr == null) return null;
         ListNode head = new ListNode(arr[0]);
         ListNode lastInsert = head;
@@ -111,5 +112,14 @@ public class LeetCodes {
         return m;
     }
 
-
+    /* 先序序列化一棵树 */
+    public static void preOrderedSerialTree(TreeNode root,  ArrayList<String> list){
+        if (root == null){
+            list.add("#");
+            return;
+        }
+        list.add(String.valueOf(root.val));
+        preOrderedSerialTree(root.left, list);
+        preOrderedSerialTree(root.right, list);
+    }
 }
