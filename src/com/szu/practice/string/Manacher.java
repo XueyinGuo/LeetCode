@@ -85,6 +85,7 @@ public class Manacher {
                     break;;
 
             }
+            /* 如果扩张到了比现在的 边界更右边的位置    就更新信息 */
             if ( i + radius[i] > rightBorder ){
                 rightBorder = i + radius[i];
                 center = i;
