@@ -122,4 +122,14 @@ public class LeetCodes {
         preOrderedSerialTree(root.left, list);
         preOrderedSerialTree(root.right, list);
     }
+
+    public static String getRandomString(int len){
+        Random random = new Random();
+        char[] chars = new char[len];
+        for (int i = 0; i < len; i++) {
+            int c = random.nextInt(5) + 'a';
+            chars[i] = (char)c;
+        }
+        return String.valueOf(chars);
+    }
 }

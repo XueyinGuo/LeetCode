@@ -1,4 +1,5 @@
-package com.szu.new_coder.byte_dance;/*
+package com.szu.new_coder.byte_dance;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
