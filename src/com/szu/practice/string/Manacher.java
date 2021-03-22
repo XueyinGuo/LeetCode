@@ -126,6 +126,7 @@ public class Manacher {
             }
             max = Math.max(curLen, max);
         }
+        /* 因为这是插了冗余字符的字符串的最长字串的长度，所以稿纸上计算一下可知，这就是正确答案 */
         return max/2;
     }
 
