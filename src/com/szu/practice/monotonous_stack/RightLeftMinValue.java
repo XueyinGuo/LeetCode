@@ -20,7 +20,7 @@ public class RightLeftMinValue {
     public static void main(String[] args) {
 
         for (int i = 0; i < 100000; i++) {
-            int[] randomArray = LeetCodes.getRandomArray(5, 30);
+            int[] randomArray = LeetCodes.getRandomArray(50, 30);
 //        int arr[] = {4,8,4,6};
             int[][] resultViolence = getResultViolence(randomArray);
             int[][] resultWithStack = getResultWithStack(randomArray);

@@ -13,7 +13,7 @@ package com.szu.practice.string;
 
 public class AddShortestEnd {
     public static void main(String[] args) {
-        String s = "abcc454";
+        String s = "abdd";
         String maxSubContainsLastChar = getMaxSubContainsLastChar(s);
         System.out.println(maxSubContainsLastChar);
     }

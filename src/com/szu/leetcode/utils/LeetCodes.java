@@ -99,7 +99,7 @@ public class LeetCodes {
     }
 
     /* 矩阵乘法 */
-    // TODO 矩阵不同维度的时候会报空指针异常
+    // TODO 矩阵不同维度的时候会报空指针异常: 比如 【2*3】 * 【3*2】
     public static int[][] matrixMultiplication(int[][] m1, int[][] m2) {
         int m[][] = new int[m1.length][m2[0].length];
         for (int i = 0; i < m1.length; i++) {
