@@ -9,75 +9,70 @@ package com.szu;
 
 import com.szu.leetcode.utils.LeetCodes;
 
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class Test {
     public static void main(String[] args) {
 
-        Random random = new Random();
-        for (int j = 0; j < 100000; j++) {
 
-            int[] arr = LeetCodes.getRandomArray(40, 50);
-            int k = 10;
-            int i = useHeap2(arr, k-1);
-            int i1 = useQuickSortLike2(arr,0, arr.length-1 ,k-1, random);
-            if (i != i1)
-                System.out.println("FUCK");
+
+        for (int i = 0; i < 10000; i++) {
+
+            String randomString = LeetCodes.getRandomString(30);
+            String randomMatch = LeetCodes.getRandomString(6);
+            int kmp = KMP(randomString, randomMatch);
+            int i1 = randomString.indexOf(randomMatch);
+            if (kmp != i1)
+                System.out.println("FUCK!");
+
         }
     }
 
-    private static int useQuickSortLike2(int[] arr, int low, int high, int index, Random random) {
-        int randomIndex = random.nextInt(low + (high - low + 1));
-        int pivot = arr[randomIndex];
-        int[] range = partition(arr, low, high, pivot);
-        if (index >= range[0] && index <= range[1])
-            return arr[index];
-        else if (index > range[1])
-            return useQuickSortLike2(arr, range[1]+1, high, index, random);
-        else
-            return useQuickSortLike2(arr, low,range[0]-1,index, random );
-    }
+    private static int KMP(String randomString, String randomMatch) {
 
-    private static int[] partition(int[] arr, int low, int high, int pivot) {
-        int less = low;
-        int cur= low;
-        int large = high;
-        while (cur <= large){
-            if (arr[cur] > pivot){
-                swap2(arr, cur, large);
-                large--;
-            }else if (arr[cur] < pivot){
-                swap2(arr, cur, less);
-                cur++;
-                less++;
-            }else
-                cur++;
+        char[] str = randomString.toCharArray();
+        char[] match = randomMatch.toCharArray();
+        int[] next = getNextArr(match);
+        int i = 0;
+        int j = 0;
+        while (i < str.length && j < match.length){
+
+            if (match[j] == str[i]){
+                i++;
+                j++;
+            }else if (next[j] != -1)
+                j = next[j];
+            else
+                i++;
+
         }
-        return new int[]{less, large};
+        return j == match.length ? i - j : -1;
     }
 
+    private static int[] getNextArr(char[] match) {
 
-    private static void swap2(int[] arr, int less, int high) {
-        if (less == high) return;
-        int tem = arr[less];
-        arr[less] = arr[high];
-        arr[high] = tem;
-    }
+        if (match.length == 1)
+            return new int[]{-1};
+        int[] next = new int[match.length];
+        next[0] = -1;
+        next[1] = 0;
+        int cn = 0;
+        int i = 2;
+        while (i < match.length){
 
-    private static int useHeap2(int[] arr, int i) {
-
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
-        for (int j = 0; j < arr.length; j++) {
-            queue.offer(arr[j]);
+            if (match[i-1] == match[cn]){
+                next[i] = cn+1;
+                i++;
+                cn++;
+            }
+            else if (cn > 0)
+                cn = next[cn];
+            else
+                next[i++] = 0;
         }
-        while (i > 0 && !queue.isEmpty()){
-            queue.poll();
-            i--;
-        }
-        if (queue.isEmpty())
-            return Integer.MIN_VALUE;
-        return queue.poll();
+        return next;
     }
+
+
 
 }
