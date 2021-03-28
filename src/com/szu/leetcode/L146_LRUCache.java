@@ -10,126 +10,161 @@ import java.util.HashMap;
 
 public class L146_LRUCache {
 
-    HashMap<Integer, Cache> map;
-    int maxCap;
-    int curCap;
-    CahceList cahceList;
+    int capacity;
+    int length;
+    HashMap<Integer, CacheNode> cache;
+    CacheNode head;
+    CacheNode tail;
 
     public L146_LRUCache(int capacity) {
-        map = new HashMap<>();
-        maxCap = capacity;
-        cahceList = new CahceList(capacity);
+        this.capacity = capacity;
+        this.cache = new HashMap<>();
+        this.length = 0;
+        this.head = this.tail = null;
     }
 
     public int get(int key) {
-        if(map.containsKey(key)){
-            Cache cache = map.get(key);
-            cahceList.remove(cache);
-            cahceList.addFirst(cache);
-            return cache.val;
+        if (!cache.containsKey(key))
+            return -1;
+        CacheNode node = cache.get(key);
+
+        if (node == head) {
+            // no op
+            // 当前key 是尾巴节点，需要更新链表关系，更改使用过的需要放到头上
+        } else if (node == tail) {
+
+            tail = node.pre;
+            node.pre.next = node.next;
+            node.next = head;
+            node.pre = null;
+            head.pre = node;
+            head = node;
+
+        } else {
+            // 链表既不是头也不是尾巴
+
+            node.pre.next = node.next;
+            node.next.pre = node.pre;
+            node.pre = null;
+            node.next = head;
+            head = node;
+
         }
-        return -1;
+
+        return node.value;
     }
+
 
     public void put(int key, int value) {
 
-        if (map.containsKey(key)) {
-            Cache remove = cahceList.remove(map.get(key));
-            cahceList.addFirst(remove);
-        }
-        Cache curCache = new Cache(key, value);
-        if (curCap < maxCap) {
-            map.put(key , curCache);
-            cahceList.addFirst(curCache);
-            curCap++;
+        CacheNode node;
+        /* 缓存长度为 0 */
+        if (length == 0) {
+            node = new CacheNode(key, value);
+            cache.put(key, node);
+            head = tail = node;
+            length++;
         } else {
-            Cache remove = cahceList.removeLast();
-            map.remove(remove.key);
-            map.put(key, curCache);
-            cahceList.addFirst(curCache);
+            /* 有缓存 */
+            /* 缓存包含想要放进的 key */
+            if (cache.containsKey(key)) {
+                node = cache.get(key);
+                // 当前的key 是头结点，直接改动值即可，啥也不用调整
+                if (node == head) {
+                    node.value = value;
+                    // 当前key 是尾巴节点，需要更新链表关系，更改使用过的需要放到头上
+                } else if (node == tail) {
+                    node.value = value;
+                    tail = node.pre;
+                    node.pre.next = node.next;
+                    node.next = head;
+                    node.pre = null;
+                    head.pre = node;
+                    head = node;
+
+                } else {
+                    // 链表既不是头也不是尾巴
+                    node.value = value;
+                    node.pre.next = node.next;
+                    node.next.pre = node.pre;
+                    node.pre = null;
+                    node.next = head;
+                    head = node;
+
+                }
+            } else {
+                /* 缓存不包含想要放进的 key */
+                /* 没有满 */
+                node = new CacheNode(key, value);
+                if (length < capacity) {
+
+                    if (capacity == 1) {
+                        cache.remove(tail.key);
+                        head = node;
+                        tail = node;
+                        cache.put(key, node);
+                    }else {
+                        head.pre = node;
+                        node.next = head;
+                        head = node;
+                        length++;
+                    }
+                }
+                /* 满了 */
+                else {
+                    if (capacity == 1) {
+                        cache.remove(tail.key);
+                        head = node;
+                        tail = node;
+                        cache.put(key, node);
+                    } else {
+                        cache.remove(tail.key);
+                        tail = tail.pre;
+                        tail.next = null;
+                        node.next = head;
+                        head.pre = node;
+                        head = node;
+                        cache.put(key, node);
+                    }
+                }
+            }
         }
 
+
     }
-}
-
-class Cache {
-    public int key, val;
-    public Cache next, prev;
-
-    public Cache(int k, int v) {
-        this.key = k;
-        this.val = v;
-    }
-}
-
-class CahceList {
-    // 在链表头部添加节点 x
-    private Cache head;
-    private Cache tail;
-    private Cache lastInsert;
-    private int cap;
-
-    public CahceList(int cap) {
-        this.cap = cap;
-    }
-
-    public void addFirst(Cache cur) {
-        if (head == null && tail == null) {
-            head = cur;
-            tail = cur;
-            lastInsert = cur;
-            return;
-        }
-        head = cur;
-        head.prev = null;
-        head.next = lastInsert;
-        lastInsert.prev = head;
-        lastInsert = head;
-    }
-
-    // 删除链表中的 x 节点（x 一定存在）
-    public Cache remove(Cache cur) {
-        Cache pre = cur.prev;
-        Cache next = cur.next;
-        if (next != null){
-            cur.next.prev = cur.prev;
-        }
-        if(pre != null)
-            cur.prev.next = cur.next;
-        if (tail == cur)
-            tail = pre;
-        if (cur == head)
-            head = null;
-        if (cap == 1)
-            head = tail = null;
-        return cur;
-    }
-
-    // 删除链表中最后一个节点，并返回该节点
-    public Cache removeLast() {
-        Cache res = tail;
-        Cache prev = tail.prev;
-        if(prev != null)
-            prev.next = null;
-        tail.prev = null;
-        tail = prev;
-
-        return res;
-    }
-
 
 }
 
 
+class CacheNode {
+    CacheNode next;
+    CacheNode pre;
+    Integer key;
+    Integer value;
 
-class Test{
+    public CacheNode(Integer key, Integer value) {
+        this.value = value;
+        this.key = key;
+    }
+
+    public CacheNode(CacheNode pre, Integer value, CacheNode next) {
+        this.next = next;
+        this.pre = pre;
+        this.value = value;
+    }
+}
+
+
+class Test {
     public static void main(String[] args) {
         L146_LRUCache test = new L146_LRUCache(2);
-        test.put(2,1);
-        test.put(2,2);
-        int i = test.get(2);
-        test.put(1,1);
-        test.put(4,1);
-        test.get(2);
+        test.put(1, 1);
+        test.put(2, 2);
+        int i = test.get(1);
+        test.put(3, 3);
+        test.put(4, 4);
+        test.get(1);
+        test.get(3);
+        test.get(4);
     }
 }

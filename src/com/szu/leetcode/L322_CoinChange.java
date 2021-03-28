@@ -64,6 +64,6 @@ public class L322_CoinChange {
 
     public static void main(String[] args) {
         L322_CoinChange coinChange322 = new L322_CoinChange();
-        System.out.println(coinChange322.coinChange(new int[]{1, 2, 5, 10}, 17));
+        System.out.println(coinChange322.coinChangeUseStupidMemory(new int[]{186,419,83,408}, 6249));
     }
 }

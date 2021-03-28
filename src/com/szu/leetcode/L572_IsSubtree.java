@@ -1,33 +1,36 @@
-package com.szu.practice.l08_string;
+package com.szu.leetcode;
 /*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
- * @Date 2021/3/21 17:31
+ *
+ *      572. 另一个树的子树
+ *      给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。
+ *      s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。
+ *
+ *      https://leetcode-cn.com/problems/subtree-of-another-tree/
+ *
+ * @Date 2021/3/27 17:33
  */
 
-import com.szu.leetcode.utils.LeetCodes;
 import com.szu.leetcode.utils.TreeNode;
 
 import java.util.ArrayList;
 
-public class IsAllEqualSubTree {
+public class L572_IsSubtree {
+    /*
+    * 前序遍历生成字符串 + KMP
+    * */
 
-    public static void main(String[] args) {
-        // 构造出两颗树， 一颗大树，一颗小树
-        int[] big = {5,9,7,8,3,6,2,7,8,1};
-        int[] small = {3,1};
-        TreeNode bigRoot = LeetCodes.arrayToTree(big);
-        TreeNode smallRoot = LeetCodes.arrayToTree(small);
-        /* 采用先序序列化的方式生成两棵树的字符串列表 */
+    public boolean isSubtree(TreeNode s, TreeNode t) {
         ArrayList<String> bigList = new ArrayList<>();
         ArrayList<String> smallList = new ArrayList<>();
-        LeetCodes.preOrderedSerialTree(bigRoot, bigList);
-        LeetCodes.preOrderedSerialTree(smallRoot, smallList);
-        /* 如果小树是大树的子树，那么序列化之后的小字符串一定是大字符串的字串 */
-        /* 使用KMP算法解决问题 */
+        preOrderedSerialTree(s, bigList);
+        preOrderedSerialTree(t, smallList);
         int index = getIndex(bigList, smallList);
-        System.out.println(index);
+        if(index == -1)
+            return false;
+        return true;
     }
 
     public static int getIndex(ArrayList<String> bigList, ArrayList<String> smallList) {
@@ -76,4 +79,13 @@ public class IsAllEqualSubTree {
         return next;
     }
 
+    public static void preOrderedSerialTree(TreeNode root,  ArrayList<String> list){
+        if (root == null){
+            list.add("#");
+            return;
+        }
+        list.add(String.valueOf(root.val));
+        preOrderedSerialTree(root.left, list);
+        preOrderedSerialTree(root.right, list);
+    }
 }
