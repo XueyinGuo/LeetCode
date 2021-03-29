@@ -6,6 +6,7 @@ package com.szu.leetcode.utils;
  * @Date 2021/3/14 23:03
  */
 
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
@@ -113,7 +114,7 @@ public class LeetCodes {
     }
 
     /* 先序序列化一棵树 */
-    public static void preOrderedSerialTree(TreeNode root,  ArrayList<String> list){
+    public static void preOrderedSerialTree(TreeNode root, ArrayList<String> list){
         if (root == null){
             list.add("#");
             return;

@@ -1,4 +1,4 @@
-package com.szu.practice.l08_string;
+package com.szu.practice.l08_kmp;
 /*
  * @Author 郭学胤
  * @University 深圳大学
