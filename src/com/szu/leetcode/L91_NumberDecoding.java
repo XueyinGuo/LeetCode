@@ -1,19 +1,43 @@
-package com.szu.practice.l03_dp;
+package com.szu.leetcode;
 /*
-* 规定1 和 A对应， 2 和 B对应， 3 和 C对应
-* 那么一个数字字符串比如 “111” 可以转换为 AAA 或者 KA 、 AK
-* 给定一个数字字符串，返回有多少种转换结果
-* */
-public class ConvertToLetterString {
+ * @Author 郭学胤
+ * @University 深圳大学
+ * @Description
+ * @Date 2021/3/30 20:23
+ */
 
+public class L91_NumberDecoding {
     public static void main(String[] args) {
         String nums = "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 //        int sum = count(nums);
-        int sumdp = countDp(nums.toCharArray());
-        long sumdp2 = countDp2(nums.toCharArray());
+//        int sumdp = countDp(nums.toCharArray());
+        long sumdp2 = numberDecoding(nums.toCharArray());
 //        System.out.println(sum);
         System.out.println(sumdp2);
     }
+
+    public static long numberDecoding(char[] chars){
+        int length = chars.length;
+        long dp[] = new long[length + 1];
+        dp[length] = 1;
+        for (int i = length-1; i >= 0; i--) {
+            /*
+            * 字符是0的情况下考虑都不考虑
+            * */
+            if (chars[i] != '0'){
+                long sum = dp[i+1];
+                /*
+                 * 字符不是0， 而且 这个字符与下一个字符的数字拼接起来 < 27
+                 * */
+                if (i + 1 < chars.length && (chars[i] - '0') * 10 + chars[i + 1] - '0' < 27){
+                    sum += dp[i+2];
+                }
+                dp[i] = sum;
+            }
+        }
+        return dp[0];
+    }
+
 
     private static int count(String nums) {
 
@@ -49,23 +73,6 @@ public class ConvertToLetterString {
 
                 int sum = dp[i+1];
                 if (i + 1 < chars.length && chars[i] - '0' < 3 && chars[i + 1] - '0' < 7){
-                    sum += dp[i+2];
-                }
-                dp[i] = sum;
-            }
-        }
-        return dp[0];
-    }
-
-    public static long countDp2(char[] chars){
-        int length = chars.length;
-        long dp[] = new long[length + 1];
-        dp[length] = 1;
-        for (int i = length-1; i >= 0; i--) {
-            if (chars[i] != '0'){
-
-                long sum = dp[i+1];
-                if (i + 1 < chars.length && (chars[i] - '0') * 10 + chars[i + 1] - '0' < 27){
                     sum += dp[i+2];
                 }
                 dp[i] = sum;

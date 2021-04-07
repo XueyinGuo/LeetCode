@@ -229,7 +229,7 @@ class TestSBTree{
                     sbTree.remove(random.nextInt(100));
                 }
             }
-            for (int j = 0; j < 10000; j++) {
+            for (int j = 0; j < 100; j++) {
                 sbTree.put(random.nextInt(100), random.nextInt(100));
             }
             int leftSize = sbTree.root.left == null ? 0 : sbTree.root.left.size;
