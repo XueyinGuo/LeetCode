@@ -2,11 +2,13 @@ package com.szu.leetcode;
 
 /*
  * 剑指 Offer 22. 链表中倒数第k个节点
+ *
+ * TODO 待优化
  * */
 
 import com.szu.leetcode.utils.ListNode;
 
-public class L22_GetKthFromEnd_offer {
+public class Offer_22_GetKthFromEnd {
 
     public ListNode getKthFromEnd(ListNode head, int k) {
         int total = 0;
