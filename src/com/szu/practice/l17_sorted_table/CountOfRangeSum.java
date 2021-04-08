@@ -1,4 +1,5 @@
-package com.szu.practice.l17_sorted_table;/*
+package com.szu.practice.l17_sorted_table;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description

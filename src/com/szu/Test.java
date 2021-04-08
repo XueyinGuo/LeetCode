@@ -16,9 +16,7 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
 
-        List<Integer> list = new ArrayList();
-        List<List<Integer>> res = new ArrayList<>();
-//        list.
+        System.out.println(5 / 3 * 3);
     }
 
 }

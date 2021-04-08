@@ -13,30 +13,34 @@ package com.szu.training.class01;
 
 public class NeedParentheses {
 
-    public boolean isValid(String s) {
+    public static boolean valid(String s) {
         char[] str = s.toCharArray();
-        int little = 0;
-        int mid = 0;
-        int large = 0;
+        int count = 0;
         for (int i = 0; i < str.length; i++) {
-            if (str[i] == '(')
-                little++;
-            else if (str[i] == '[')
-                mid++;
-            else if (str[i] == '{')
-                large++;
-            else if (str[i] == ')')
-                little--;
-            else if (str[i] == ']')
-                mid--;
-            else
-                large--;
-            if (little < 0 || mid < 0 || large < 0)
+            count += str[i] == '(' ? 1 : -1;
+            if (count < 0) {
                 return false;
+            }
         }
-        if (large != 0 || little != 0 || mid != 0)
-            return false;
-        return true;
+        return count == 0;
+    }
+
+    public static int needParentheses(String s) {
+        char[] str = s.toCharArray();
+        int count = 0;
+        int need = 0;
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] == '(') {
+                count++;
+            } else { // 遇到的是')'
+                if (count == 0) {
+                    need++;
+                } else {
+                    count--;
+                }
+            }
+        }
+        return count + need;
     }
 
 }

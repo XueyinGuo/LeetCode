@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class LeetCodes {
+
+    static TreeNode Dummy = new TreeNode();
+
     /* int数组变成树 */
     public static TreeNode arrayToTree(int[] arr){
-        if (arr.length==0 || arr == null) return null;
+        if (arr == null || arr.length==0) return null;
         TreeNode root = new TreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
@@ -30,6 +33,46 @@ public class LeetCodes {
         }
         return root;
     }
+
+    /* integer 数组变成树 */
+    public static TreeNode integerArrayToTree(Integer[] arr){
+        if (arr == null || arr.length==0) return null;
+        TreeNode root = new TreeNode(arr[0]);
+        ArrayDeque<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        int index = 1;
+        try {
+            while (!queue.isEmpty() && index < arr.length){
+                TreeNode node = queue.poll();
+                if(index == arr.length) break;
+                if (arr[index] == null){
+                    node.left = null;
+                    index++;
+                }
+                else
+                    node.left = new TreeNode(arr[index++]);
+                if(index == arr.length) break;
+                if (arr[index] == null){
+                    node.right = null;
+                    index++;
+                }
+                else
+                    node.right = new TreeNode(arr[index++]);
+                if (node.left == null)
+                    queue.add(Dummy);
+                else
+                    queue.add(node.left);
+                if (node.right == null)
+                    queue.add(Dummy);
+                else
+                    queue.add(node.right);
+            }
+        }catch (Exception e){
+            System.err.println("二叉树序列不合法!");
+        }
+        return root;
+    }
+
 
     /* 字符数组转成树 */
     public static TreeNode charArrayToTree(char[] arr){

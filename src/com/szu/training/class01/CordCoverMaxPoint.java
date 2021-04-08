@@ -106,9 +106,10 @@ public class CordCoverMaxPoint {
             int ans1 = maxPoint1(arr, L);
             int ans2 = coverMaxPoint(arr, L);
             int ans3 = test(arr, L);
-            if (ans1 != ans2 || ans2 != ans3) {/*
-             * 字符是0的情况下考虑都不考虑
-             * */
+            if (ans1 != ans2 || ans2 != ans3) {
+                /*
+                 * 字符是0的情况下考虑都不考虑
+                 * */
                 LeetCodes.printArray(arr);
                 System.out.println("K: " + L);
                 System.out.println("oops!");
