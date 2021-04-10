@@ -1,4 +1,5 @@
-package com.szu.leetcode.algorithms;/*
+package com.szu.leetcode.algorithms;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
@@ -13,79 +14,84 @@ package com.szu.leetcode.algorithms;/*
  * @Date 2021/2/17 23:32
  */
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class L15_ThreeSum {
-    Set<List<Integer>> set = new HashSet<>();
+
     public List<List<Integer>> threeSum(int[] nums) {
-        sort(nums, 0, nums.length-1);
-        int positiveStart = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] > 0){
-                positiveStart = i;
-                break;
-            }
-        }
-        findResult(nums, positiveStart);
-        List<List<Integer>> res = new ArrayList<>();
-        for (List<Integer> l : set) {
-            res.add(l);
-        }
-        return res;
+        return threeSum(nums, 0);
     }
 
-    private void findResult(int[] nums, int positiveStart) {
+    List<List<Integer>> res = new ArrayList<>();
 
-        if(nums.length == 0){
-            return;
-        }
+    public List<List<Integer>> threeSum(int[] nums, int k) {
+        Arrays.sort(nums);
+        if (nums == null || nums.length < 3)
+            return res;
 
-        if (nums[0] > 0 || nums[nums.length-1] < 0){
-            return;
-        }
-        for (int i = 0; i < nums.length-1; i++) {
-            int cur = nums[i] + nums[i + 1];
-            for (int j = positiveStart; j < nums.length; j++) {
-                if (cur + nums[j] == 0){
+        int length = nums.length;
+
+        for (int i = 0; i < length - 2; i++) {
+            /*
+            * 为了防止重复答案出现，而且避免使用set增加额外的代码量和空间复杂度
+            * 以及调用函数产生的额外的时间复杂度，在代码运行过程中充分判重复
+            *
+            * 首先 如果 i 位置 与 上一个 i 位置值相同直接跳过
+            * */
+            if (i > 0)
+                if (nums[i] == nums[i - 1])
+                    continue;
+            // 剩余数组中找两个数相加为 k 的代码
+            int l = i + 1;
+            int r = length - 1;
+            // 两数之和 为 差值 时， 则找到了 三元组
+            int kk = k - nums[i];
+            while ( l != r){
+                /*
+                 * 剩余位置的其实位置位 l
+                 * r 始终为 数组最后一个数字
+                 *
+                 * 如果 [-1,0,1,2,-1] 排序完成之后为
+                 * -1 -1 0 1 2
+                 * 当 i 位于第一个 -1
+                 * l 位于第二个 -1 的时候，有两个解，所以
+                 * 也为了避免漏解，所以 l 与 i 中间至少间隔 1 个元素的时候才开始 判断 l 的重复
+                 * */
+                if (l > i + 1)
+                    if ( nums[l] == nums[l - 1]){
+                        l++;
+                        continue;
+                    }
+                /*
+                 * 避免 r 的重复
+                 * */
+                if (r < length - 1){
+                    if (nums[r] == nums[r + 1]){
+                        r--;
+                        continue;
+                    }
+                }
+                int cur = nums[l] + nums[r];
+                if (cur < kk)
+                    l++;
+                else if (cur > kk)
+                    r--;
+                else {
                     ArrayList<Integer> list = new ArrayList<>();
                     list.add(nums[i]);
-                    list.add(nums[i + 1]);
-                    list.add(nums[j]);
-                    set.add(list);
-                    continue;
+                    list.add(nums[l]);
+                    list.add(nums[r]);
+                    res.add(list);
+                    l++;
                 }
-                if (cur + nums[j] > 0){
-                    continue;
-                }
+
             }
-        }
-    }
-
-    private void sort(int[] nums, int low, int high) {
-        if (low < high){
-            int index = partition(nums, low, high);
-            sort(nums,low, index-1);
-            sort(nums,index+1, high);
-        }
-    }
-
-    private int partition(int[] nums, int low, int high) {
-
-        int pivot = nums[low];
-        while (low < high){
-
-            while (low < high && nums[high] >= pivot ) high--;
-            nums[low] = nums[high];
-            while (low < high && nums[low] <= pivot) low++;
-            nums[high] = nums[low];
 
         }
-        nums[low] = pivot;
-        return low;
+        return res;
+
     }
+
 
 
 
