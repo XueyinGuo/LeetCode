@@ -49,7 +49,7 @@ public class L394_DecodeString {
         return sb.toString();
     }
 
-    public Info decode( char[] chars, int i ){
+    public Info decode(char[] chars, int i ){
         StringBuffer sb = new StringBuffer();
 
         while(i < chars.length ){
