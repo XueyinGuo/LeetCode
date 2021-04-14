@@ -32,7 +32,6 @@ package com.szu.practice.l17_sorted_table;
  */
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class SlidingWindowMedian {
 
@@ -69,22 +68,66 @@ public class SlidingWindowMedian {
         return maintain(cur);
     }
 
-    public SBNode delete(int value){
+    public void delete(int value){
         Integer times = map.get(value);
-        if (times == null)
+        if (times == 1)
+            root = delete(root, value, true);
+        else{
 
+            root = delete(root, value, false);
+            map.put(value, times - 1);
+        }
     }
 
-    public SBNode delete(SBNode cur, int value){
-        cur.all--;
-        if (cur.value > value)
-            cur.left = delete(cur.left, value);
-        else if (cur.value < value)
-            cur.right = delete(cur.right, value);
-        else {
-
+    public SBNode delete(SBNode cur, int value, boolean onlyOne){
+        if (!onlyOne){
+            countDownAllOnly(cur, value);
+        }else {
+            cur.all--;
+            cur.size--;
+            if (cur.value > value)
+                cur.left = delete(cur.left, value, false);
+            else if (cur.value < value)
+                cur.right = delete(cur.right, value, false);
+            else {
+                  if (cur.left == null && cur.right == null)
+                      cur = null;
+                  else if (cur.left != null && cur.right == null)
+                      cur = cur.left;
+                  else if (cur.right != null && cur.left == null)
+                      cur = cur.right;
+                  else {
+                      SBNode successor = cur.right;
+                      successor.size--;
+                      successor.all--;
+                      SBNode pre = null;
+                      while (successor.left != null){
+                          pre = successor;
+                          successor = successor.left;
+                          successor.size--;
+                          successor.all--;
+                      }
+                      if (pre != null){
+                          pre.left = successor.right;
+                          successor.right = pre;
+                      }
+                      successor.left = cur.left;
+                      successor.size = cur.size;
+                      successor.all = cur.all;
+                      cur = successor;
+                  }
+            }
         }
         return maintain(cur);
+    }
+
+    private void countDownAllOnly(SBNode cur, int value) {
+        cur.all--;
+        cur.size--;
+        if (cur.value > value)
+            cur.left = delete(cur.left, value, false);
+        else if (cur.value < value)
+            cur.right = delete(cur.right, value, false);
     }
 
     private SBNode maintain(SBNode cur) {
@@ -171,4 +214,44 @@ public class SlidingWindowMedian {
         }
     }
 
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int ans[] = new int[nums.length - k + 1];
+        SlidingWindowMedian tree = new SlidingWindowMedian();
+        for (int i = 0; i < k; i++) {
+
+            tree.add(nums[i]);
+        }
+        int index = 0;
+        for (int i = k; i < nums.length; i++) {
+            int size = tree.root.all;
+            if (size % 2 == 0){
+                int first = tree.getKthNum(root,size / 2);
+                int second = tree.getKthNum(root, size / 2 + 1);
+                ans[index++] = (first + second ) / 2;
+            }else {
+                ans[index++] = tree.getKthNum(root, size / 2);
+            }
+        }
+        return ans;
+    }
+
+    private int getKthNum(SBNode cur ,int k) {
+
+
+        int leftAndHeadCount = cur.all - (cur.right == null ? 0 : cur.right.all);
+        if (leftAndHeadCount < k)
+            return getKthNum(cur.right, k - leftAndHeadCount);
+        else if (leftAndHeadCount > k){
+            int leftCount = cur.left == null ? 0 : cur.left.all;
+            if (leftCount > k){
+                return getKthNum(cur.left, k);
+            }
+
+        }
+        return cur.value;
+    }
+
+    public static void main(String[] args) {
+
+    }
 }
