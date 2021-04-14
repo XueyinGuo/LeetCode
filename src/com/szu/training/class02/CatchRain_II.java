@@ -4,7 +4,7 @@ package com.szu.training.class02;
  * @University 深圳大学
  * @Description
  *
- *      TODO 接雨水 II
+ *      接雨水 II
  *
  *      执行用时：44 ms, 在所有 Java 提交中击败了 7.02% 的用户
  *      内存消耗：41.9 MB, 在所有 Java 提交中击败了 5.09% 的用户
