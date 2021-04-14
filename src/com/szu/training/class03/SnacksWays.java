@@ -22,7 +22,7 @@ public class SnacksWays {
 
         if (rest < 0)
             return 0;
-        // 没零食可以选择，但是包包没装满 也算一种选择
+        /* 没零食可以选择，但是包包没装满 也算一种选择 */
         if (rest == 0)
             return 1;
         if (index == weights.length)
