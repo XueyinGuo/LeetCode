@@ -17,20 +17,7 @@ public class Test {
     int a;
 
     public static void main(String[] args) {
-        Test test = new Test();
-        test.a = -1;
-        test.change(test.a);
-        System.out.println();
-
-        HashMap<Integer, Integer> map = new HashMap();
-        Iterator<Map.Entry<Integer, Integer>> iterator = map.entrySet().iterator();
-
-        TreeMap<Integer, Integer> treeMap = new TreeMap<>();
-
-        while (iterator.hasNext()){
-            Map.Entry<Integer, Integer> next = iterator.next();
-//            treeMap.put(next.)
-        }
+        System.out.println( -1 / 2);
     }
 
     private void change(int a) {
