@@ -3,6 +3,9 @@ package com.szu.leetcode.algorithms;
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
+ *
+ *  TODO 依然不正确，还是有 bug
+ *
  * @Date 2021/4/14 23:33
  */
 
@@ -64,9 +67,9 @@ class L480_SlidingWindowMedian {
                 cur.all--;
                 cur.size--;
                 if (cur.value > value)
-                    cur.left = delete(cur.left, value, false);
+                    cur.left = delete(cur.left, value, true);
                 else if (cur.value < value)
-                    cur.right = delete(cur.right, value, false);
+                    cur.right = delete(cur.right, value, true);
                 else {
                     if (cur.left == null && cur.right == null)
                         cur = null;
@@ -102,7 +105,6 @@ class L480_SlidingWindowMedian {
 
         private void countDownAllOnly(SBNode cur, int value) {
             cur.all--;
-            cur.size--;
             if (cur.value > value)
                 cur.left = delete(cur.left, value, false);
             else if (cur.value < value)
@@ -179,6 +181,10 @@ class L480_SlidingWindowMedian {
             return right;
         }
 
+        public int getKthNum(int k) {
+            return getKthNum(root, k + 1);
+        }
+
         public int getKthNum(SBNode cur ,int k) {
 
 
@@ -187,7 +193,7 @@ class L480_SlidingWindowMedian {
                 return getKthNum(cur.right, k - leftAndHeadCount);
             else if (leftAndHeadCount > k){
                 int leftCount = cur.left == null ? 0 : cur.left.all;
-                if (leftCount > k){
+                if (leftCount >= k){
                     return getKthNum(cur.left, k);
                 }
 
@@ -222,11 +228,11 @@ class L480_SlidingWindowMedian {
         for (int i = k; i <= nums.length; i++) {
             int size = tree.root.all;
             if (size % 2 == 0){
-                int first = tree.getKthNum(tree.root,size / 2);
-                int second = tree.getKthNum(tree.root, size / 2 + 1);
+                int first = tree.getKthNum(size / 2 );
+                int second = tree.getKthNum( size / 2 + 1);
                 ans[index++] = (first + second ) / 2;
             }else {
-                ans[index++] = tree.getKthNum(tree.root, size / 2);
+                ans[index++] = tree.getKthNum(size / 2 );
             }
             if (i == nums.length)
                 break;
