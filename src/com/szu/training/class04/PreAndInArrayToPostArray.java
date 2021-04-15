@@ -48,15 +48,15 @@ public class PreAndInArrayToPostArray {
         int leftSize = mid - inStart;
         post[postEnd] = pre[preStart];
         /*
-        * 1,    2,    4,    5,        3            (pre)
-        *      |--liftSize---|    |rightSize|
+        * 1,    2,    4,    5,                 3            (pre)
+        *      |--liftSize---|             |rightSize|
         *
-        * |--liftSize---|   mid   |rightSize|
-         *                  ↓
-        * 4,    2,    5,    1,        3            (in)
+        * |--liftSize---|      mid         |rightSize|
+         *                     ↓
+        * 4,    2,    5,       1,              3            (in)
         *
-        * |--liftSize---|  |rightSize|
-        * |-------------|  |--|       1            (post)
+        * |--liftSize---|    |rightSize|
+        * |-------------|    |--|              1            (post)
         * */
         preInToPos(pre, preStart + 1, preStart + leftSize,
                    in, inStart, mid - 1,
