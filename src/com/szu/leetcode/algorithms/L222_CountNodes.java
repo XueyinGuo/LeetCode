@@ -6,6 +6,49 @@ import com.szu.leetcode.utils.TreeNode;
 * 222. 完全二叉树的节点个数
 * */
 class L222_CountNodes {
+
+    public int countNodesAwesome(TreeNode root){
+        if (root == null)
+            return 0;
+        /* 先求出整棵树的最大高度 */
+        return bs(root, 1, mostLeftLevel(root));
+    }
+
+    public int bs(TreeNode root, int level, int h){
+        if (root == null)
+            return 0;
+        /*
+         * 查看自己右树高度，如果右树高度已经到了 最大高度，那么左树必定是一个满二叉树，直接计算节点个数
+         * 左树的高度就是 最大层数 - 当前层数
+         * 左树节点个数就是 2 ^ (左树高度) - 1， 再加上头结点本身， +1， 即为 2 ^ (左树高度)
+         * 转换为 位运算 */
+        if (level + mostLeftLevel(root.right) == h){
+            return (1 << (h - level)) + bs(root.right, level + 1, h);
+        }else{
+            /*
+             * 右树不是最大高度，右树肯定是满二叉树， 右树高度必定为 树高度 - 层数 - 1
+             * */
+            return (1 << (h - level - 1)) + bs(root.left, level + 1, h);
+        }
+    }
+
+    /*
+     * 获取整棵树的高度
+     * （既然是完全二叉树，那么一直往左窜，一直窜到空肯定是最大高度）
+     * */
+    public int mostLeftLevel(TreeNode root){
+        int level = 0;
+        while (root != null){
+            level++;
+            root = root.left;
+        }
+        return level;
+    }
+
+
+    /*
+    * 此解法过于暴力，以上解法为 O(logN ^ 2)
+    * */
     public int countNodes(TreeNode root) {
         // 空树 直接返回0
         if(root == null){
