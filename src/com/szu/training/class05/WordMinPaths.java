@@ -15,6 +15,11 @@ package com.szu.training.class05;
  * 例如：start="abc", to="cab", list={"cab",“acc”,“cbc”,“ccc”,“cac”,“cbb”,“aab”,“abb”}
  * 转换路径的方法有很多种，，但所有最短的路径转换如下：
  *
+ * abc -> cbc -> cac -> cab
+ * abc -> cbc -> cbb -> cab
+ * abc -> abb -> cbb -> cab
+ * abc -> abb -> aab -> cab
+ *
  *
  * @Date 2021/4/16 19:10
  */
@@ -25,7 +30,7 @@ public class WordMinPaths {
 
     public static void main(String[] args) {
         String start = "abc";
-        String end = "acc";
+        String end = "cab";
         String[] test = { "abc", "cab", "acc", "cbc", "ccc", "cac", "cbb",
                 "aab", "abb" };
         ArrayList<String> list = new ArrayList<>();
