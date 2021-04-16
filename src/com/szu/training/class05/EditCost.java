@@ -1,4 +1,4 @@
-package com.szu.training.class04;
+package com.szu.training.class05;
 /*
  * @Author 郭学胤
  * @University 深圳大学
