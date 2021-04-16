@@ -17,6 +17,7 @@ public class EditCost {
         String str1 = "sea";
         String str2 = "eat";
         System.out.println(test.minCostViolence(str1, str2, 1, 1, 1));
+        System.out.println(test.minCostDP(str1, str2, 1, 1, 1));
 //        System.out.println(minCostDp(str1, str2, 5, 3, 2));
     }
 
@@ -44,15 +45,31 @@ public class EditCost {
         }
 
         if (index1 == 0 && index2 == 0){
+
             return str1[index1] == str2[index2] ? 0 : Math.min(rc, ic + dc);
         }
 
         if (index1 == 0){
-            return minCostViolence(str1, str2, index1, index2 - 1, ic, dc, rc) + ic;
+            /* str1[index1] 统一变成 str2[index2 - 1] 的样子 然后 加上一个 插入代价 */
+            int cost1 = minCostViolence(str1, str2, index1, index2 - 1, ic, dc, rc) + ic;
+
+
+            int cost5 = Integer.MAX_VALUE;
+            if (str1[index1] == str2[index2])
+                /* 保留最后一个字母， 两个位置的字母一样，保留不需要任何代价 ， str1[index1 - 1] 统一变成 str2[index2 - 1] 的样子 即可 */
+                cost5 = minCostViolence(str1, str2, index1 - 1, index2 - 1, ic, dc, rc);
+
+            return Math.min(cost1, cost5);
         }
 
         if (index2 == 0){
-            return minCostViolence(str1, str2, index1 - 1, index2, ic, dc, rc) + dc;
+            int cost2 = minCostViolence(str1, str2, index1 - 1, index2, ic, dc, rc) + dc;
+            int cost5 = Integer.MAX_VALUE;
+            if (str1[index1] == str2[index2])
+                /* 保留最后一个字母， 两个位置的字母一样，保留不需要任何代价 ， str1[index1 - 1] 统一变成 str2[index2 - 1] 的样子 即可 */
+                cost5 = minCostViolence(str1, str2, index1 - 1, index2 - 1, ic, dc, rc);
+
+            return Math.min(cost2, cost5);
         }
 
         /* str1[index1] 统一变成 str2[index2 - 1] 的样子 然后 加上一个 插入代价 */
@@ -68,6 +85,37 @@ public class EditCost {
             /* 保留最后一个字母， 两个位置的字母一样，保留不需要任何代价 ， str1[index1 - 1] 统一变成 str2[index2 - 1] 的样子 即可 */
             cost5 = minCostViolence(str1, str2, index1 - 1, index2 - 1, ic, dc, rc);
         return Math.min( Math.min(Math.min(cost1, cost2), Math.min(cost3, cost4)), cost5);
+    }
 
+    public int minCostDP(String s1, String s2, int ic, int dc, int rc){
+        char[] str1 = s1.toCharArray();
+        char[] str2 = s2.toCharArray();
+        int rows = str1.length + 1;
+        int cols = str2.length + 1;
+        int[][] dp = new int[rows][cols];
+
+        for (int r = 1; r < rows; r++) {
+            dp[r][0] = r * dc;
+        }
+
+        for (int c = 1; c < cols; c++) {
+            dp[0][c] = c * ic;
+        }
+
+        for (int r = 1; r < rows; r++) {
+            for (int c = 1; c < cols; c++) {
+                if (str1[r - 1] == str2[c - 1]){
+                    dp[r][c] = dp[r-1][c-1];
+                }else {
+                    int cost1 = dp[r][c-1] + ic;
+                    int cost2 = dp[r-1][c] + dc;
+                    int cost3 = dp[r-1][c-1] + rc;
+                    int cost4 = dp[r-1][c-1] + rc + dc;
+                    dp[r][c] = Math.min( Math.min(cost1, cost2), Math.min(cost3, cost4) );
+                }
+
+            }
+        }
+        return dp[rows-1][cols-1];
     }
 }
