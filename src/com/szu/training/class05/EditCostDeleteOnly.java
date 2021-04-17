@@ -8,23 +8,21 @@ package com.szu.training.class05;
  * 比如 s1 = "abcde"  ,  s2 = "axbc"
  * 返回 1， 删掉 x 即可
  *
- * TODO
- *
  * @Date 2021/4/16 13:33
  */
 
 public class EditCostDeleteOnly {
 
     public static void main(String[] args) {
-        String s1 = "bca";
-        String s2 = "cd";
+        String s1 = "adcc";
+        String s2 = "dc";
         int violence = minCostViolence(s1, s2);
         int right = RIGHT_CODE(s1, s2);
         int myDp0 = minCostDP(s1, s2);
         System.out.println(violence);
 
-        int str1Len = 20;
-        int str2Len = 10;
+        int str1Len = 30;
+        int str2Len = 15;
         int v = 5;
         for (int i = 0; i < 100000; i++) {
             String str1 = generateRandomString(str1Len, v);
@@ -100,37 +98,36 @@ public class EditCostDeleteOnly {
         int cols = str2.length + 1;
         int[][] dp = new int[rows][cols];
         // dp[0][0] = 0;  “” -> “” 编辑代价为 0
+        int ans = cols - 1;
+
         for (int r = 1; r < rows; r++) {
             dp[r][0] = Integer.MAX_VALUE;
         }
-        for (int c = 1; c < cols; c++) {
-            dp[0][c] = c;
-        }
-        int ans = cols - 1;
-        for (int r = 1; r < rows; r++) {
+        for (int start = 1; start < rows; start++) {
+
             for (int c = 1; c < cols; c++) {
-                if ( str1[r-1] == str2[c-1] || dp[r][c-1] != Integer.MAX_VALUE)
-                    dp[r][c] = c;
+                if (str1[start - 1] == str2[c - 1] || dp[start][c - 1] != Integer.MAX_VALUE)
+                    dp[start][c] = c - 1;
                 else
-                    dp[r][c] = Integer.MAX_VALUE;
+                    dp[start][c] = Integer.MAX_VALUE;
             }
-            ans = Math.min(ans, dp[r][cols-1]);
-            for (int rr = r + 1; rr < rows; rr++) {
+            ans = Math.min(ans, dp[start][cols-1]);
+
+            for (int end = start + 1; end < rows; end++) {
                 for (int c = 1; c < cols; c++) {
-                    if (str1[rr-1] != str2[c-1]){
-                        if (dp[rr][c-1] != Integer.MAX_VALUE)
-                            dp[rr][c] = dp[rr][c-1] + 1;
-                        else
-                            dp[rr][c] = Integer.MAX_VALUE;
-                    }
-                    if( str1[rr-1] == str2[c-1] && dp[rr-1][c-1] != Integer.MAX_VALUE )
-                        dp[rr][c] = dp[rr-1][c-1];
+
+                    if (str1[end - 1] == str2[c - 1])
+                        dp[end][c] = Math.min(dp[end-1][c-1], c - 1);
+                    else if (dp[end][c-1] != Integer.MAX_VALUE)
+                        dp[end][c] = dp[end][c-1] + 1;
                     else
-                        dp[rr][c] = Integer.MAX_VALUE;
+                        dp[end][c] = Integer.MAX_VALUE;
+
                 }
-                ans = Math.min(ans, dp[rr][cols-1]);
+                ans = Math.min(ans, dp[end][cols-1]);
             }
         }
+
         return ans;
     }
 
