@@ -18,6 +18,17 @@ public class Test {
 
     public static void main(String[] args) {
         System.out.println( -1 / 2);
+//        Arrays.sort(new int[]{}, new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer o1, Integer o2) {
+//                return 0;
+//            }
+//
+//            @Override
+//            public boolean equals(Object obj) {
+//                return false;
+//            }
+//        });
     }
 
     private void change(int a) {
