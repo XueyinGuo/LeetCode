@@ -14,12 +14,12 @@ package com.szu.training.class05;
 public class EditCostDeleteOnly {
 
     public static void main(String[] args) {
-        String s1 = "adcc";
-        String s2 = "dc";
-        int violence = minCostViolence(s1, s2);
-        int right = RIGHT_CODE(s1, s2);
-        int myDp0 = minCostDP(s1, s2);
-        System.out.println(violence);
+//        String s1 = "adcc";
+//        String s2 = "dc";
+//        int violence = minCostViolence(s1, s2);
+//        int right = RIGHT_CODE(s1, s2);
+//        int myDp0 = minCostDP(s1, s2);
+//        System.out.println(violence);
 
         int str1Len = 30;
         int str2Len = 15;
@@ -104,7 +104,6 @@ public class EditCostDeleteOnly {
             dp[r][0] = Integer.MAX_VALUE;
         }
         for (int start = 1; start < rows; start++) {
-
             for (int c = 1; c < cols; c++) {
                 if (str1[start - 1] == str2[c - 1] || dp[start][c - 1] != Integer.MAX_VALUE)
                     dp[start][c] = c - 1;
@@ -112,7 +111,6 @@ public class EditCostDeleteOnly {
                     dp[start][c] = Integer.MAX_VALUE;
             }
             ans = Math.min(ans, dp[start][cols-1]);
-
             for (int end = start + 1; end < rows; end++) {
                 for (int c = 1; c < cols; c++) {
 
@@ -122,12 +120,10 @@ public class EditCostDeleteOnly {
                         dp[end][c] = dp[end][c-1] + 1;
                     else
                         dp[end][c] = Integer.MAX_VALUE;
-
                 }
                 ans = Math.min(ans, dp[end][cols-1]);
             }
         }
-
         return ans;
     }
 

@@ -71,7 +71,7 @@ public class L241_Expression {
     }
 
     public static void main(String[] args) {
-        List<Integer> integers = new L241_Expression().diffWaysToCompute("2*3-4*5");
+        List<Integer> integers = new L241_Expression().diffWaysToCompute("2*3-4*5+7-5*3+5-4*2-2*3-4*5+7-5*3+5-4*2");
         System.out.println();
     }
 }
