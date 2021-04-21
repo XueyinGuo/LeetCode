@@ -12,6 +12,8 @@ package com.szu.training.class06;
  * 三个切割点 下边为 2  5  7
  * 切出的 四个子数组 [3，2]  [1, 4] [5] [1,2,2],累加和 为 5
  *
+ * TODO 有BUG
+ *
  * @Date 2021/4/21 20:59
  */
 
@@ -25,8 +27,12 @@ public class Split4Parts {
     public static void main(String[] args) {
         int testTime = 3000000;
         for (int i = 0; i < testTime; i++) {
-//            int[] arr = LeetCodes.getRandomArray(20, 10  );
-            int[] arr = {3, 2, 4, 1, 4, 9, 5, 10, 1, 2, 2};
+            int[] arr = LeetCodes.getRandomArray(10, 5  );
+            for (int j = 0; j < arr.length; j++) {
+                arr[j] += 1;
+            }
+//            int[] arr = {3, 2, 4, 1, 4, 9, 5, 10, 1, 2, 2};
+//            int[] arr = {4, 0, 2, 2, 1, 4, 0,  3, 3, 1};
             if (canSplits1(arr) ^ myCanSplits(arr)) {
                 System.out.println("FUCK");
             }
@@ -54,12 +60,17 @@ public class Split4Parts {
 
             left += arr[i];
             Integer index = map.get(left);
-            while (index != null){
+            while (index != null && parts <= 4){
                 index++;
+                if (index >= arr.length)
+                    break;
                 leftSum += left + arr[index];
                 index = map.get(leftSum + left);
-
+                parts++;
             }
+            if (parts == 4)
+                return true;
+            parts = 1;
             leftSum = 0;
             i++;
         }
