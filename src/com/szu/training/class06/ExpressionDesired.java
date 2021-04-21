@@ -16,13 +16,20 @@ import java.util.List;
 public class ExpressionDesired {
 
     public static void main(String[] args) {
-        String express = "1^0&0|1&1^0&0^1|0|1&1";
+        String express = "1^0&0|1&1^0&0^1|0|1&1|0&1^0|1&0^0&0|1&1^0&0^1|0|1&1|0&1^0|1&0";
         boolean desired = true;
 //        System.out.println(veryViolence(express, desired));
         System.out.println(violenceALittle(express, desired));
         System.out.println(dp(express, desired));
     }
 
+    /*
+    * =====================
+    * =====================
+    * 自己画表格，搞清楚动态规划
+    * =====================
+    * =====================
+    * */
     private static int dp(String express, boolean desired) {
         char[] str = isValid(express);
         if (str == null)
@@ -34,9 +41,51 @@ public class ExpressionDesired {
             trueDp[i][i] = str[i] == '1' ? 1 : 0;
             falseDp[i][i] = str[i] == '1' ? 0 : 1;
         }
+        for (int row = length - 3; row >= 0; row -= 2) {
+            for (int col = row + 2; col < length; col += 2) {
+                for (int i = row + 1; i < length; i += 2) {
+                    switch (str[i]) {
+                        /* 如果我现在想要的结果是 true，我现在的操作符是 或 */
+                        case '|':
+                            /* 那么我两侧只要有一个为 true 就好了，两侧都是 true 好上加好 */
+                            trueDp[row][col] += falseDp[row ][ i - 1] *  trueDp[i + 1][col];
+                            trueDp[row][col] +=  trueDp[ row][ i - 1] * falseDp[i + 1][col];
+                            trueDp[row][col] +=  trueDp[ row][ i - 1] *  trueDp[i + 1][col];
+                            break;
+                        case '^':
+                            /* 此时操作符为 ^ ，我只需要两侧不一样即可 */
+                            trueDp[row][col] += falseDp[ row][ i - 1] *  trueDp[i + 1][col];
+                            trueDp[row][col] +=  trueDp[ row][ i - 1] * falseDp[i + 1][col];
+                            break;
+                        case '&':
+                            /* 两侧都是 true 才行 */
+                            trueDp[row][col] += trueDp[row][ i - 1] * trueDp[i + 1][ col];
+                            break;
+                    }
+                    switch (str[i]) {
+                        case '|':
+                            /* 两侧都得是 false */
+                            falseDp[row][col] += falseDp[row][i - 1] * falseDp[i + 1][col];
+                            break;
+                        case '^':
+                            /* 两侧为一样的 就为 false */
+                            falseDp[row][col] += falseDp[row][ i - 1] * falseDp[i + 1][col];
+                            falseDp[row][col] +=  trueDp[row][i - 1]  *  trueDp[i + 1][col];
+                            break;
+                        case '&':
+                            /* 两侧只要有一个 false ，那么就可以是 false， 两个false 是好上加好 */
+                            falseDp[row][col] += falseDp[row][i - 1] *  trueDp[i + 1][col];
+                            falseDp[row][col] +=  trueDp[row][i - 1] * falseDp[i + 1][col];
+                            falseDp[row][col] += falseDp[row][i - 1] * falseDp[i + 1][col];
+                            break;
+                    }
+                }
+
+            }
+        }
 
 
-        return desired ? trueDp[0][length-1] : falseDp[0][length-1];
+        return desired ? trueDp[0][length - 1] : falseDp[0][length - 1];
     }
 
     private static int violenceALittle(String express, boolean desired) {
