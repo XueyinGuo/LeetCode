@@ -40,7 +40,7 @@ public class L03_LongestSumSubArrayLength {
             if (awesome != maxLength || awesome != violence || violence != maxLength) {
                 System.out.println(i);
                 printArray(arr);
-                System.out.println("Oops!");
+                System.out.println("FUCK!");
             }
         }
         System.out.println("test finish");
