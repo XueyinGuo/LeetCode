@@ -32,38 +32,36 @@ public class StringCross {
         char[] strAim = aim.toCharArray();
         int rows = str1.length + 1;
         int cols = str2.length + 1;
-        boolean dp[][] = new boolean[rows][cols];
+        boolean[][] dp = new boolean[rows][cols];
         dp[0][0] = true;
         for (int c = 1; c < cols; c++) {
-            if (str2[c - 1] == strAim[c - 1]) {
-
-                dp[0][c] = true;
-            }else
+            if (str2[c-1] != strAim[c-1])
                 break;
+            dp[0][c] = true;
         }
-        for (int r = 1; r < rows; r++) {
-            if (str1[r - 1] == strAim[r - 1]) {
-                dp[r][0] =  true;
-            }else
+
+        for (int r = 1; r < cols; r++) {
+            if (str1[r-1] != strAim[r-1])
                 break;
+            dp[r][0] = true;
         }
 
         for (int r = 1; r < rows; r++) {
             for (int c = 1; c < cols; c++) {
-                if (dp[r-1][c] && strAim[r+c-1] == str1[r-1])
+                if (str1[r-1] == strAim[r + c - 1] && dp[r-1][c])
                     dp[r][c] = true;
-                if (dp[r][c-1] && strAim[r+c-1] == str2[c-1])
+
+                if (str2[c-1] == strAim[r+c-1] && dp[r][c-1])
                     dp[r][c] = true;
             }
         }
         return dp[rows-1][cols-1];
-
     }
 
     public static void main(String[] args) {
         String str1 = "AB";
         String str2 = "12";
-        String aim = "A1B2";
+        String aim = "12BA";
         boolean cross = isCross(str1, str2, aim);
         System.out.println(cross);
     }
