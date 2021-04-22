@@ -171,7 +171,7 @@ public class LeetCodes {
         Random random = new Random();
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
-            int c = random.nextInt(5) + 'a';
+            int c = random.nextInt(25) + 'a';
             chars[i] = (char)c;
         }
         return String.valueOf(chars);

@@ -12,7 +12,7 @@ package com.szu.training.class06;
  * 三个切割点 下边为 2  5  7
  * 切出的 四个子数组 [3，2]  [1, 4] [5] [1,2,2],累加和 为 5
  *
- * TODO 有BUG
+ * TODO  有BUG
  *
  * @Date 2021/4/21 20:59
  */

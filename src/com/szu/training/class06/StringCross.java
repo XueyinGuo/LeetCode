@@ -35,33 +35,33 @@ public class StringCross {
         boolean[][] dp = new boolean[rows][cols];
         dp[0][0] = true;
         for (int c = 1; c < cols; c++) {
-            if (str2[c-1] != strAim[c-1])
+            if (str2[c - 1] != strAim[c - 1])
                 break;
             dp[0][c] = true;
         }
 
         for (int r = 1; r < cols; r++) {
-            if (str1[r-1] != strAim[r-1])
+            if (str1[r - 1] != strAim[r - 1])
                 break;
             dp[r][0] = true;
         }
 
         for (int r = 1; r < rows; r++) {
             for (int c = 1; c < cols; c++) {
-                if (str1[r-1] == strAim[r + c - 1] && dp[r-1][c])
+                if (str1[r - 1] == strAim[r + c - 1] && dp[r - 1][c])
                     dp[r][c] = true;
 
-                if (str2[c-1] == strAim[r+c-1] && dp[r][c-1])
+                if (str2[c - 1] == strAim[r + c - 1] && dp[r][c - 1])
                     dp[r][c] = true;
             }
         }
-        return dp[rows-1][cols-1];
+        return dp[rows - 1][cols - 1];
     }
 
     public static void main(String[] args) {
-        String str1 = "AB";
-        String str2 = "12";
-        String aim = "12BA";
+        String str1 = "aabc";
+        String str2 = "aaa31";
+        String aim = "aaa3aab1c";
         boolean cross = isCross(str1, str2, aim);
         System.out.println(cross);
     }
