@@ -115,7 +115,7 @@ public class LongestIncreaseSubArray {
     }
 
     /*
-    * 以下代码是大神的完全正确版
+    * 以下代码是完全正确版
     * */
     public static int[] lisRight(int[] arr) {
         if (arr == null || arr.length == 0) {

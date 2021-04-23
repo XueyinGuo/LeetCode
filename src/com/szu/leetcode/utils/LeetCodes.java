@@ -110,7 +110,7 @@ public class LeetCodes {
         Random random = new Random();
         int[] ret = new int[num];
         for (int i = 0; i < num; i++) {
-            ret[i] = random.nextInt(bound);
+            ret[i] = random.nextInt(bound) + 1;
         }
         return ret;
     }
