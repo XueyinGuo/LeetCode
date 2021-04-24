@@ -1,4 +1,5 @@
-package com.szu.practice.l20_catalan;/*
+package com.szu.practice.l20_catalan;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
