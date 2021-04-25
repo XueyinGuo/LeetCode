@@ -11,13 +11,9 @@ import java.util.ArrayList;
 public class Test {
     public static void main(String[] args) {
 
-        BigDecimal one = new BigDecimal(1);
-        BigDecimal three = new BigDecimal(3);
-        BigDecimal two = new BigDecimal(2);
-        BigDecimal six = new BigDecimal(6);
-
-        System.out.println(one.divide(three));
-        System.out.println(two.divide(six));
-        System.out.println(one.divide(three) == two.divide(six));
+        String a = "leetCode";
+        String b = "leet";
+        System.out.println(a.indexOf(b));
+        System.out.println(b.indexOf(a));
     }
 }
