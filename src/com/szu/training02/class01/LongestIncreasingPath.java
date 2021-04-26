@@ -19,7 +19,7 @@ package com.szu.training02.class01;
 
 import com.szu.leetcode.utils.LeetCodes;
 
-public class LongestIncreasingSequence {
+public class LongestIncreasingPath {
 
     public static void main(String[] args) {
         for (int i = 0; i < 10000; i++) {

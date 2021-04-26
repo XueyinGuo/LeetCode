@@ -115,6 +115,16 @@ public class LeetCodes {
         return ret;
     }
 
+    /* 生成随机数组 */
+    public static int[] getRandomArrayWithNegative(int num, int bound) {
+        Random random = new Random();
+        int[] ret = new int[num];
+        for (int i = 0; i < num; i++) {
+            ret[i] = random.nextInt(bound) - bound / 2;
+        }
+        return ret;
+    }
+
     /* 打印当前数组中的值 */
     public static void printArray(int[] arr) {
         if (arr != null) {
