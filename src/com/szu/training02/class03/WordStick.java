@@ -13,7 +13,7 @@ package com.szu.training02.class03;
  * @Date 2021/4/27 16:27
  */
 
-public class WorldBreak {
+public class WordStick {
 
 
 
