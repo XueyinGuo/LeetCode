@@ -1,12 +1,12 @@
-package com.szu.training02.class02;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
  *
- * 741. 摘樱桃
+   741. 摘樱桃
     一个N x N的网格(grid) 代表了一块樱桃地，每个格子由以下三种数字的一种来表示：
-
+    
     0 表示这个格子是空的，所以你可以穿过它。
     1 表示这个格子里装着一个樱桃，你可以摘到樱桃然后穿过它。
     -1 表示这个格子里有荆棘，挡着你的路。
@@ -20,7 +20,7 @@ package com.szu.training02.class02;
  * @Date 2021/4/26 15:18
  */
 
-public class CherryPickupII {
+public class L741_CherryPickup {
 
     public static int cherryPickup(int[][] grid) {
         if (grid == null || grid.length == 0) {

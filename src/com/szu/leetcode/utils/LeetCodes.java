@@ -125,6 +125,18 @@ public class LeetCodes {
         return ret;
     }
 
+    /* 拷贝一个新数组 */
+    public static int[] copyArray(int[] arr) {
+        if (arr == null) {
+            return null;
+        }
+        int[] res = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            res[i] = arr[i];
+        }
+        return res;
+    }
+
     /* 打印当前数组中的值 */
     public static void printArray(int[] arr) {
         if (arr != null) {
