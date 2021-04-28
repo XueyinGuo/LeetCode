@@ -18,9 +18,9 @@ package com.szu.leetcode.algorithms;
 
 import com.szu.leetcode.utils.TreeNode;
 
-public class L236_LowestCommonAncestor {
+public class L235_LowestCommonAncestor {
 
-    public static TreeNode lowestAncestor2(TreeNode head, TreeNode a, TreeNode b) {
+    public static TreeNode lowestAncestor(TreeNode head, TreeNode a, TreeNode b) {
         return process(head, a, b).ans;
     }
 

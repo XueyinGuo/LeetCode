@@ -1,4 +1,4 @@
-package com.szu.training02.class03;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -19,7 +19,7 @@ package com.szu.training02.class03;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class WordStick {
+public class L691_WordStick {
 
     public int minStickers(String[] stickers, String target) {
         if(target  == null || target.length() == 0)
@@ -55,8 +55,8 @@ public class WordStick {
         }
         int min = Integer.MAX_VALUE;
         /*
-        * 每次递归都从头开始枚举
-        * */
+         * 每次递归都从头开始枚举
+         * */
         for (int i = 0; i < map.length; i++){
             // 每次在开始删除字符之前，都查看一下当前这个贴纸 包不包含我当前字符串的第一个字符
             int firstCharIndex = str[0] - 'a';
@@ -72,14 +72,14 @@ public class WordStick {
                         sb.append((char)(j+'a'));
                 }
                 /*
-                * 构造好应该传入下一层的字符串之后，开始进行下一层递归
-                *
-                * 下一层继续拿有下一层字符串第一个字符的贴纸，继续这个过程，最终字符串被删空，
-                * 返回的是下一层的使用的张数，加上我的这一层使用了一张！
-                *
-                *
-                * 然后换下一张贴纸，包含当前字符串第一个字符的贴纸 继续尝试！
-                * */
+                 * 构造好应该传入下一层的字符串之后，开始进行下一层递归
+                 *
+                 * 下一层继续拿有下一层字符串第一个字符的贴纸，继续这个过程，最终字符串被删空，
+                 * 返回的是下一层的使用的张数，加上我的这一层使用了一张！
+                 *
+                 *
+                 * 然后换下一张贴纸，包含当前字符串第一个字符的贴纸 继续尝试！
+                 * */
                 int next = getMinStickers(map, sb.toString(), dp);
                 if (next != Integer.MAX_VALUE)
                     next += 1;
@@ -94,9 +94,8 @@ public class WordStick {
 
     }
 
-
     public static void main(String[] args) {
-        WordStick test = new WordStick();
+        L691_WordStick test = new L691_WordStick();
         String[] stickers = {"with", "example", "science"};
         String target = "thehat";
         int i = test.minStickers(stickers, target);
