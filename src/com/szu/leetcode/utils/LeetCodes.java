@@ -116,6 +116,16 @@ public class LeetCodes {
     }
 
     /* 生成随机数组 */
+    public static int[] getIncreasingArray(int num) {
+        int[] ret = new int[num];
+        int val = 1;
+        for (int i = 0; i < num; i++) {
+            ret[i] = val++;
+        }
+        return ret;
+    }
+
+    /* 生成随机数组 */
     public static int[] getRandomArrayWithNegative(int num, int bound) {
         Random random = new Random();
         int[] ret = new int[num];
