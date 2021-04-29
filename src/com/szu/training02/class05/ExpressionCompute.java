@@ -19,5 +19,95 @@ package com.szu.training02.class05;
  * @Date 2021/4/29 15:36
  */
 
+import java.util.LinkedList;
+import java.util.Stack;
+
 public class ExpressionCompute {
+
+    public static void main(String[] args) {
+//        String str = "48*((70-65)-43)+8*1";
+        String str = "(2+5)*3-6*7-15+12*14/5+(6-7)";
+        int res = calculate(str);
+        System.out.println(res);
+    }
+
+    private static int calculate(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+
+        char[] expression = s.toCharArray();
+        return calculate(expression, 0).result;
+    }
+
+    private static Info calculate(char[] expression, int index) {
+
+        int i = index;
+        LinkedList<String> stack = new LinkedList<>();
+
+        while (i < expression.length && expression[i] != ')') {
+            int curNum = 0;
+            /* 获取当前数字 */
+//            int weiShu = 0;
+            boolean hasNum = false;
+            while ( i< expression.length && expression[i] >= '0' && expression[i] <= '9') {
+                hasNum = true;
+                curNum = curNum * 10 + expression[i++] - '0';
+            }
+
+            /* 如果这个位置是括号，我需要展开递归 */
+            if (i< expression.length && expression[i] == '(') {
+                Info info = calculate(expression, i + 1);
+                curNum = info.result;
+                hasNum = true;
+                i = info.index + 1;
+            }
+            /* 获取完当前数字时候，看看栈定是否是乘号或者除号，如果是直接计算,算完放回栈中 */
+            String op = stack.peekLast();
+            if (op != null && op.equals("*")) {
+                stack.pollLast();
+                Integer poll = Integer.valueOf(stack.pollLast());
+                stack.addLast(String.valueOf(poll * curNum));
+                continue;
+            }
+            if (op != null && op.equals("/")) {
+                stack.pollLast();
+                Integer poll = Integer.valueOf(stack.pollLast());
+                stack.addLast(String.valueOf(poll / curNum));
+                continue;
+            }
+            if (hasNum)
+                stack.addLast(String.valueOf(curNum));
+            /* 计算符号放入栈中 */
+            if (i == expression.length)
+                break;
+            if (expression[i] == '+' || expression[i] == '-' ||
+                    expression[i] == '*' || expression[i] == '/') {
+
+                stack.addLast(String.valueOf(expression[i++]));
+                continue;
+            }
+
+        }
+        while (stack.size() > 1) {
+            String first = stack.pollLast();
+            String op = stack.pollLast();
+            String second = stack.pollLast();
+            if (op.equals("+"))
+                stack.addLast(String.valueOf(Integer.valueOf(second) + Integer.valueOf(first)));
+            else
+                stack.addLast(String.valueOf(Integer.valueOf(second) - Integer.valueOf(first)));
+        }
+        return new Info(Integer.valueOf(stack.peek()), i);
+    }
+
+    static class Info {
+        int result;
+        int index;
+
+        public Info(int result, int index) {
+            this.result = result;
+            this.index = index;
+        }
+    }
+
 }
