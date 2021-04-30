@@ -22,7 +22,7 @@ public class KTimesOneTime {
             int index = 0;
             int[] arr = new int[len];
             while (index < len) {
-                int randomNum = random.nextInt(1000);
+                int randomNum = random.nextInt(1000) - 500;
                 for (int dup = index; dup < index + 20; dup++) {
                     if (dup == len)
                         break;
@@ -30,9 +30,10 @@ public class KTimesOneTime {
                 }
                 index += 20;
             }
-            arr[len - 1] = random.nextInt(1000);
-            int my = onceNum(arr, 20);
-            int right = onceNumRight(arr, 20);
+            arr[len - 1] = random.nextInt(1000) - 500;
+            int []arr2 = {2,2,2,-1,-1,-1,8,-7,0,-7,0,-7,0};
+            int my = onceNum(arr2, 3);
+            int right = onceNumRight(arr2, 3);
             if (my != right)
                 System.out.println("FUCK");
         }
@@ -60,10 +61,10 @@ public class KTimesOneTime {
             protectFromOutOfBound(help, k);
         }
         /*
-        * 最后从一个 k 进制的数变回 十进制的 int
-        *
-        * 变化规则就是：每一位上的值 * (k ^ i)  累加起来
-        * */
+         * 最后从一个 k 进制的数变回 十进制的 int
+         *
+         * 变化规则就是：每一位上的值 * (k ^ i)  累加起来
+         * */
         int rest = 0;
         for (int i = 0; i < help.length; i++) {
             int pow = getQuickPow(k, i);

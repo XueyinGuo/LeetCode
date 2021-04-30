@@ -1,4 +1,4 @@
-package com.szu.training02.class05;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -21,7 +21,7 @@ package com.szu.training02.class05;
 
 import java.util.LinkedList;
 
-public class ExpressionCompute {
+public class L227_Calculator {
 
     public static void main(String[] args) {
 //        String str = "48*((70-65)-43)+8*1";
@@ -44,7 +44,7 @@ public class ExpressionCompute {
         LinkedList<String> stack = new LinkedList<>();
 
         while (i < expression.length && expression[i] != ')') {
-            if (expression[i] == ' ') {
+            if (expression[i] == ' '){
                 i++;
                 continue;
             }
@@ -53,13 +53,13 @@ public class ExpressionCompute {
             /* 获取当前数字 */
 //            int weiShu = 0;
             boolean hasNum = false;
-            while (i < expression.length && expression[i] >= '0' && expression[i] <= '9') {
+            while ( i< expression.length && expression[i] >= '0' && expression[i] <= '9') {
                 hasNum = true;
                 curNum = curNum * 10 + expression[i++] - '0';
             }
 
             /* 如果这个位置是括号，我需要展开递归 */
-            if (i < expression.length && expression[i] == '(') {
+            if (i< expression.length && expression[i] == '(') {
                 Info info = calculate(expression, i + 1);
                 curNum = info.result;
                 hasNum = true;
@@ -87,7 +87,7 @@ public class ExpressionCompute {
             if (expression[i] == '+' || expression[i] == '-' ||
                     expression[i] == '*' || expression[i] == '/') {
                 /* 比较恶心的题，除了负数减号开头之外，还有正数加号开头，为了防止转换错误，在 开头是符号的时候，栈中先加一个 0 */
-                if (stack.isEmpty() && (expression[i] == '-' || expression[i] == '+'))
+                if (stack.isEmpty() && (expression[i] == '-' || expression[i] == '+')  )
                     stack.addLast(String.valueOf(0));
                 stack.addLast(String.valueOf(expression[i++]));
                 continue;
