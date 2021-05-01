@@ -10,6 +10,7 @@ import com.szu.training02.class03.KTimesOneTime;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Test {
     public static void main(String[] args) {
@@ -26,7 +27,14 @@ public class Test {
 
 //        System.out.println(5l / 6l);
 
-        int quickPow = KTimesOneTime.getQuickPow(2, 4);
-        System.out.println(quickPow);
+//        int quickPow = KTimesOneTime.getQuickPow(2, 4);
+//        System.out.println(quickPow);
+
+        TreeSet<Integer> set = new TreeSet<>();
+        set.add(1);
+        set.add(3);
+        set.add(2);
+        System.out.println(set.ceiling(2));
+        System.out.println(set.floor(2));
     }
 }
