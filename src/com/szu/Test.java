@@ -5,6 +5,8 @@ package com.szu;/*
  * @Date 2021/4/21 14:58
  */
 
+import com.szu.leetcode.utils.LeetCodes;
+import com.szu.leetcode.utils.ListNode;
 import com.szu.training02.class03.KTimesOneTime;
 
 import java.math.BigDecimal;
@@ -30,11 +32,7 @@ public class Test {
 //        int quickPow = KTimesOneTime.getQuickPow(2, 4);
 //        System.out.println(quickPow);
 
-        TreeSet<Integer> set = new TreeSet<>();
-        set.add(1);
-        set.add(3);
-        set.add(2);
-        System.out.println(set.ceiling(2));
-        System.out.println(set.floor(2));
     }
+
+
 }
