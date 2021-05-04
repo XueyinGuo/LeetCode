@@ -1,29 +1,74 @@
-package com.szu.training02.class04;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
  *
- * 给定两个整数数组 A 和 B
- * A是长度 为 m
- * B长度为 n
- * 两个数组都已排好序
- * 希望从A 和 B 数组中找出 前 K 大的数字
+ * 4. 寻找两个正序数组的中位数
+    给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+
+    示例 1：
+
+    输入：nums1 = [1,3], nums2 = [2]
+    输出：2.00000
+    解释：合并数组 = [1,2,3] ，中位数 2
+    示例 2：
+
+    输入：nums1 = [1,2], nums2 = [3,4]
+    输出：2.50000
+    解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+    示例 3：
+
+    输入：nums1 = [0,0], nums2 = [0,0]
+    输出：0.00000
+    示例 4：
+
+    输入：nums1 = [], nums2 = [1]
+    输出：1.00000
  *
- * @Date 2021/4/27 17:53
+ * @Date 2021/5/3 12:33
  */
 
-import com.szu.leetcode.utils.LeetCodes;
+public class L4_MedianOfTwoSortedArrays {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if ((nums1 == null || nums1.length == 0) && (nums2 == null || nums2.length == 0))
+            return 0;
+        int m = nums1 == null ? 0 : nums1.length;
+        int n = nums2 == null ? 0 : nums2.length;
 
-import java.util.Arrays;
-import java.util.Random;
+        if (m == 0) {
+            return justOneArr(nums2);
 
-public class FindKthMinNumberInTwoArrayII {
 
+        } else if (n == 0)
+            return justOneArr(nums1);
+        else {
+            /* 底层函数找的是第 K 大的 */
+            int mid = (m + n) / 2;
+            if ((m + n) % 2 != 0) {
+                /* 所以这里需要的是 第 （mid + 1）大的数字 */
+                return getUpMedian(nums1, nums2, mid + 1);
+            } else {
+                int up = getUpMedian(nums1, nums2, mid);
+                int down = getUpMedian(nums1, nums2, mid + 1);
+                return ((double) up + (double) down) / 2;
+            }
+
+        }
+    }
+
+    private double justOneArr(int[] nums) {
+        int len = nums.length;
+        int mid = len / 2;
+        if (len % 2 != 0) {
+            return nums[mid];
+        } else
+            return ((double) nums[mid - 1] + (double) nums[mid]) / 2;
+
+    }
 
     public static int getUpMedian(int[] arr1, int[] arr2, int k) {
-        if (arr1 == null || arr2 == null || arr1.length == 0 || arr2.length == 0)
-            throw new RuntimeException("Are you out of your FUCKING mind, you just give me an(or two) empty array!!!");
+
         int total = arr1.length + arr2.length;
         if (k > total)
             throw new RuntimeException("Are you out of your FUCKING mind, you just give me an invalid K !!!");
@@ -146,53 +191,9 @@ public class FindKthMinNumberInTwoArrayII {
 
 
     public static void main(String[] args) {
-        Random random = new Random();
-        long awesomeTime = 0;
-        long violenceTime = 0;
-        for (int i = 0; i < 1000000; i++) {
-            int len1 = random.nextInt(500) + 50;
-            int len2 = random.nextInt(500) + 50;
-            int[] arr1 = LeetCodes.getRandomArray(len1, random.nextInt(500) + 50);
-            int[] arr2 = LeetCodes.getRandomArray(len2, random.nextInt(500) + 50);
-            Arrays.sort(arr1);
-            Arrays.sort(arr2);
-            int k = random.nextInt(len1 + len2 - 20) + 1;
-            long startTime = System.currentTimeMillis();
-            int violence = violence(arr1, arr2, k);
-            violenceTime += System.currentTimeMillis() - startTime;
-            startTime = System.currentTimeMillis();
-            int awesome = getUpMedian(arr1, arr2, k);
-            awesomeTime += System.currentTimeMillis() - startTime;
-            if (violence != awesome)
-                System.out.println("FUCK");
-        }
-
-        System.out.println("violence time : " + violenceTime);
-        System.out.println("awesome time : " + awesomeTime);
+        int arr1[] = {1, 3};
+        int arr2[] = {2};
+        L4_MedianOfTwoSortedArrays test = new L4_MedianOfTwoSortedArrays();
+        test.findMedianSortedArrays(arr1, arr2);
     }
-
-    private static int violence(int[] arr1, int[] arr2, int k) {
-        int[] all = new int[arr1.length + arr2.length];
-        int i = 0;
-        int j = 0;
-        int allIndex = 0;
-        while (i < arr1.length && j < arr2.length) {
-
-            if (arr1[i] >= arr2[j])
-                all[allIndex++] = arr2[j++];
-            if (j == arr2.length)
-                break;
-            if (arr1[i] < arr2[j])
-                all[allIndex++] = arr1[i++];
-        }
-
-        while (i < arr1.length)
-            all[allIndex++] = arr1[i++];
-
-        while (j < arr2.length)
-            all[allIndex++] = arr2[j++];
-
-        return all[k - 1];
-    }
-
 }
