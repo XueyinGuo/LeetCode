@@ -1,4 +1,4 @@
-package com.szu.training03.class01;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -18,7 +18,7 @@ package com.szu.training03.class01;
  * @Date 2021/5/5 17:25
  */
 
-public class ScrambleString {
+public class L87_ScrambleString {
 
     public boolean isScramble(String s1, String s2) {
         /* 检验合法性 */
