@@ -31,6 +31,16 @@ public class Test {
 
 //        int quickPow = KTimesOneTime.getQuickPow(2, 4);
 //        System.out.println(quickPow);
+        for (int i = 0; i < 10000; i++) {
+            String randomString = LeetCodes.getRandomString(10, 27);
+            char[] str = randomString.toCharArray();
+
+            for (int j = 0; j < str.length; j++) {
+                if (str[j] - 'a' <= 0 || str[j] - 'a' >= 25)
+                    System.out.println(str[j]);
+            }
+
+        }
 
     }
 

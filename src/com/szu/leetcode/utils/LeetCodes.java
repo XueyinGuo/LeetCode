@@ -69,6 +69,7 @@ public class LeetCodes {
             }
         }catch (Exception e){
             System.err.println("二叉树序列不合法!");
+            return null;
         }
         return root;
     }
@@ -204,6 +205,18 @@ public class LeetCodes {
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
             int c = random.nextInt(5) + 'a';
+            chars[i] = (char)c;
+        }
+        return String.valueOf(chars);
+    }
+
+    public static String getRandomString(int len, int maxCharYouWant){
+        if (maxCharYouWant > 26 || maxCharYouWant < 1)
+            throw new RuntimeException("Are you out of your fucking mind ? 'maxCharYouWant' must in range of [1 ~ 26]!!! And your want is fucking [" + maxCharYouWant + "] !!!");
+        Random random = new Random();
+        char[] chars = new char[len];
+        for (int i = 0; i < len; i++) {
+            int c = random.nextInt(maxCharYouWant) + 'a';
             chars[i] = (char)c;
         }
         return String.valueOf(chars);
