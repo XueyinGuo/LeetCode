@@ -1,38 +1,55 @@
-package com.szu.new_coder.byte_dance;
+package com.szu.training02.class07;
 /*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
-
-        https://www.nowcoder.com/question/next?pid=8537279&qid=141058&tid=41922278
-        拉鸡巴倒吧
- * @Date 2021/3/12 13:19
+ *
+ * 项目有四个信息：
+ * 1.哪个项目经理提出的
+ * 2.被项目经理提出的时间
+ * 3.项目优先级
+ * 4.项目花费的时间
+ * 例如：[1,3,2,2]
+ *      【被1号项目经理提出的，3号时间点写完项目计划书，优先级是2，做完项目耗费的时间为 2】
+ * 给定一个正数 managers，表示经理的数量，每个经理只负责自己的项目，并且一次只能提交一个项目给程序员们，这个项目做完了才能提交。
+ *
+ * 经理对项目的喜好是这样：
+ *          项目优先级越高，越先提交项目
+ *          优先级一样的项目，花费时间越少，越先被提交
+ *          还一样的越早写完计划书的，越先被提交
+ *
+ * 给定一个正数 programmers，表示程序员的数量，所有经理提交的项目中，程序员会按照自己的喜好来挑选项目来完成，每个人做完一个才能做下一个
+ *          花费时间越少，越先被选择
+ *          花费时间一样的，负责人编号小的，先选出来
+ *
+ * 提交一个长度为 N 的 projects 二维数组
+ * 返回一个 长度为 N 的一位数组，表示这些项目结束的时间
+ *
+ * @Date 2021/5/4 9:51
  */
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
-public class PMAndHisIdeas {
+public class ManagersAndProgrammers {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        /*输入第一行三个数N、M、P，分别表示有N个PM，M个程序员，P个idea。随后有P行，每行有4个数字，分别是PM序号、提出时间、优先等级和所需时间。全部数据范围 [1, 3000]。*/
-
-        int managers = scanner.nextInt();
-        int programmers = scanner.nextInt();
-        int ideaNum = scanner.nextInt();
-
-        int[][] projects = new int[ideaNum][];
-
-        for (int i = 0; i < ideaNum; i++) {
-            projects[i] = new int[4];
-            projects[i][0] = scanner.nextInt();
-            projects[i][1] = scanner.nextInt();
-            projects[i][2] = scanner.nextInt();
-            projects[i][3] = scanner.nextInt();
-        }
+        int managers = 4;
+        int programmers = 4;
+        int[][] projects = {
+                { 1, 1, 1, 2 },
+                { 1, 2, 1, 1 },
+                { 1, 3, 2, 2 },
+                { 2, 1, 1, 2 },
+                { 2, 3, 3, 5 },
+                { 2, 5, 6, 7 },
+                { 3, 3, 2, 4 },
+                { 3, 6, 5, 6 },
+                { 4, 6, 4, 2 },
+                { 4, 7, 5, 7 },
+                { 4, 3, 7, 8 },
+        };
 
         int[] res = getFinishTime(managers, programmers, projects);
         Arrays.stream(res).forEach(
