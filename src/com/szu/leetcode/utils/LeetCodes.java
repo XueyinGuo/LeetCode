@@ -68,8 +68,7 @@ public class LeetCodes {
                     queue.add(node.right);
             }
         }catch (Exception e){
-            System.err.println("二叉树序列不合法!");
-            return null;
+            throw new RuntimeException("Can you just give me an legal Integer array ? YOU FUCKING NUTS!!!");
         }
         return root;
     }
@@ -212,7 +211,7 @@ public class LeetCodes {
 
     public static String getRandomString(int len, int maxCharYouWant){
         if (maxCharYouWant > 26 || maxCharYouWant < 1)
-            throw new RuntimeException("Are you out of your fucking mind ? 'maxCharYouWant' must in range of [1 ~ 26]!!! And your want is fucking [" + maxCharYouWant + "] !!!");
+            throw new RuntimeException("Are you out of your FUCKING mind ? 'maxCharYouWant' must in range of [1 ~ 26]!!! And your want is FUCKING [" + maxCharYouWant + "] !!! YOU FUCKING CRAZY BALD OLD MAN !!!");
         Random random = new Random();
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
