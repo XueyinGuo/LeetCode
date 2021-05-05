@@ -1,4 +1,4 @@
-package com.szu.training02.class08;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -26,7 +26,7 @@ package com.szu.training02.class08;
  * @Date 2021/5/4 9:54
  */
 
-public class MinimumCostToMergeStones {
+public class L1000_MergeStones {
 
 
     public int mergeStonesStupidMemory(int[] stones, int k) {
@@ -167,7 +167,7 @@ public class MinimumCostToMergeStones {
 
 
     public static void main(String[] args) {
-        MinimumCostToMergeStones test = new MinimumCostToMergeStones();
+        L1000_MergeStones test = new L1000_MergeStones();
         int[] arr = {3, 2};
         int k = 2;
         test.mergeStonesViolence(arr, k);

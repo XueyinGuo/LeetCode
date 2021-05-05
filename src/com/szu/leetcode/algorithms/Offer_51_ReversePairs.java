@@ -16,27 +16,30 @@
 //
 //public class Offer_51_ReversePairs {
 //
-//    public int reversePairs(int[] nums) {
-//        if (nums == null || nums.length == 0)
+//    public static int reversePairs(int[] nums) {
+//        if (nums == null || nums.length <= 1)
 //            return 0;
 //        int length = nums.length;
+//        int[] help = new int[length];
+//        help[length - 1] = 0;
+//        int ans = 0;
+//        for (int i = length - 2; i >= 0; i--) {
 //
-//        LinkedList<InfoReversePairs> linkedList = new LinkedList<>();
-//        linkedList.add(new InfoReversePairs(nums[length - 1], 0));
+//            if (nums[i] > nums[i + 1]) {
+//                help[i] = help[i + 1] + 1;
 //
-//        for (int i = length - 2; i >= 0 ; i--) {
-//            linkedList.
+//            }else{
+//
+//                help[i] = help[i + 1];
+//
+//            }
+//            ans += help[i];
 //        }
+//        return ans + 1;
 //    }
 //
-//}
-//
-//class InfoReversePairs{
-//    int num;
-//    int lessCount;
-//
-//    public InfoReversePairs(int num, int lessCount) {
-//        this.num = num;
-//        this.lessCount = lessCount;
+//    public static void main(String[] args) {
+//        int[] arr = {7,5,6,4};
+//        int i = reversePairs(arr);
 //    }
 //}
