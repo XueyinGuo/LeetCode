@@ -3,98 +3,223 @@ package com.szu.leetcode.algorithms;
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
- *      TODO
  *
- * @Date 2021/4/9 10:41
+ * 460. LFU 缓存
+    请你为 最不经常使用（LFU）缓存算法设计并实现数据结构。
+
+    实现 LFUCache 类：
+
+    LFUCache(int capacity) - 用数据结构的容量 capacity 初始化对象
+    int get(int key) - 如果键存在于缓存中，则获取键的值，否则返回 -1。
+    void put(int key, int value) - 如果键已存在，则变更其值；如果键不存在，请插入键值对。
+    当缓存达到其容量时，则应该在插入新项之前，使最不经常使用的项无效。
+    在此问题中，当存在平局（即两个或更多个键具有相同使用频率）时，应该去除 最近最久未使用 的键。
+    注意「项的使用次数」就是自插入该项以来对其调用 get 和 put 函数的次数之和。使用次数会在对应项被移除后置为 0 。
+
+    为了确定最不常使用的键，可以为缓存中的每个键维护一个 使用计数器 。使用计数最小的键是最久未使用的键。
+
+    当一个键首次插入到缓存中时，它的使用计数器被设置为 1 (由于 put 操作)。对缓存中的键执行 get 或 put 操作，使用计数器的值将会递增。
+ *
+ * @Date 2021/5/6 14:27
  */
 
-import java.lang.reflect.Field;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 
 public class L460_LFUCache {
 
-    PriorityQueue<CacheUnit> cache;
-    int capacity;
-    int size;
-    HashMap<Integer, CacheUnit> memory;
+    private int capacity; // 缓存的大小限制，即K
+    private int size; // 缓存目前有多少个节点
+    private HashMap<Integer, Node> records;// 表示key(Integer)由哪个节点(Node)代表
+    private HashMap<Node, NodeList> heads; // 表示节点(Node)在哪个桶(NodeList)里
+    private NodeList headList; // 整个结构中位于最左的桶
 
-    public L460_LFUCache(int capacity){
-        this.cache = new PriorityQueue<>(capacity, new Comparator<CacheUnit>() {
-            @Override
-            public int compare(CacheUnit o1, CacheUnit o2) {
-                return o2.use - o1.use;
-            }
-        });
-//        Field f = null;
-//        try {
-//            f = cache.getClass().getDeclaredField("queue");
-//            f.setAccessible(true);
-////            this.cacheArray = f.get(cache);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        f.setAccessible(true);
-        this.capacity = capacity;
+    public L460_LFUCache(int K) {
+        this.capacity = K;
         this.size = 0;
-        this.memory = new HashMap<>();
+        this.records = new HashMap<>();
+        this.heads = new HashMap<>();
+        headList = null;
     }
 
-    public int get(int key) {
-        CacheUnit unit = memory.get(key);
-        if (unit != null){
-            unit.use++;
-            return unit.val;
+    // removeNodeList：刚刚减少了一个节点的桶
+    // 这个函数的功能是，判断刚刚减少了一个节点的桶是不是已经空了。
+    // 1）如果不空，什么也不做
+    //
+    // 2)如果空了，removeNodeList还是整个缓存结构最左的桶(headList)。
+    // 删掉这个桶的同时也要让最左的桶变成removeNodeList的下一个。
+    //
+    // 3)如果空了，removeNodeList不是整个缓存结构最左的桶(headList)。
+    // 把这个桶删除，并保证上一个的桶和下一个桶之间还是双向链表的连接方式
+    //
+    // 函数的返回值表示刚刚减少了一个节点的桶是不是已经空了，空了返回true；不空返回false
+    private boolean modifyHeadList(NodeList removeNodeList) {
+        if (removeNodeList.isEmpty()) {
+            if (headList == removeNodeList) {
+                headList = removeNodeList.next;
+                if (headList != null) {
+                    headList.last = null;
+                }
+            } else {
+                removeNodeList.last.next = removeNodeList.next;
+                if (removeNodeList.next != null) {
+                    removeNodeList.next.last = removeNodeList.last;
+                }
+            }
+            return true;
         }
-        return -1;
+        return false;
     }
 
-    public void put(int key, int value){
-        CacheUnit unit = memory.get(key);
-        if (unit != null){
-            unit.val = value;
-            unit.use++;
+    // 函数的功能
+    // node这个节点的次数+1了，这个节点原来在oldNodeList里。
+    // 把node从oldNodeList删掉，然后放到次数+1的桶中
+    // 整个过程既要保证桶之间仍然是双向链表，也要保证节点之间仍然是双向链表
+    private void move(Node node, NodeList oldNodeList) {
+        oldNodeList.deleteNode(node);
+        // preList表示次数+1的桶的前一个桶是谁
+        // 如果oldNodeList删掉node之后还有节点，oldNodeList就是次数+1的桶的前一个桶
+        // 如果oldNodeList删掉node之后空了，oldNodeList是需要删除的，所以次数+1的桶的前一个桶，是oldNodeList的前一个
+        NodeList preList = modifyHeadList(oldNodeList) ? oldNodeList.last
+                : oldNodeList;
+        // nextList表示次数+1的桶的后一个桶是谁
+        NodeList nextList = oldNodeList.next;
+        if (nextList == null) {
+            NodeList newList = new NodeList(node);
+            if (preList != null) {
+                preList.next = newList;
+            }
+            newList.last = preList;
+            if (headList == null) {
+                headList = newList;
+            }
+            heads.put(node, newList);
+        } else {
+            if (nextList.head.times.equals(node.times)) {
+                nextList.addNodeFromHead(node);
+                heads.put(node, nextList);
+            } else {
+                NodeList newList = new NodeList(node);
+                if (preList != null) {
+                    preList.next = newList;
+                }
+                newList.last = preList;
+                newList.next = nextList;
+                nextList.last = newList;
+                if (headList == nextList) {
+                    headList = newList;
+                }
+                heads.put(node, newList);
+            }
+        }
+    }
+
+    public void put(int key, int value) {
+        if(capacity == 0) {
             return;
         }
-        CacheUnit newUnit = new CacheUnit(key, value);
-        if (size < capacity){
-            memory.put(key, newUnit);
-            cache.add(newUnit);
+        if (records.containsKey(key)) {
+            Node node = records.get(key);
+            node.value = value;
+            node.times++;
+            NodeList curNodeList = heads.get(node);
+            move(node, curNodeList);
+        } else {
+            if (size == capacity) {
+                Node node = headList.tail;
+                headList.deleteNode(node);
+                modifyHeadList(headList);
+                records.remove(node.key);
+                heads.remove(node);
+                size--;
+            }
+            Node node = new Node(key, value, 1);
+            if (headList == null) {
+                headList = new NodeList(node);
+            } else {
+                if (headList.head.times.equals(node.times)) {
+                    headList.addNodeFromHead(node);
+                } else {
+                    NodeList newList = new NodeList(node);
+                    newList.next = headList;
+                    headList.last = newList;
+                    headList = newList;
+                }
+            }
+            records.put(key, node);
+            heads.put(node, headList);
             size++;
-            return;
         }
-        cache.poll();
-        memory.remove(key);
-        cache.add(newUnit);
-        memory.put(key, newUnit);
     }
 
-    public static void main(String[] args) {
-        L460_LFUCache test = new L460_LFUCache(5);
-        test.put(5,5);
-        test.put(6,6);
-        test.put(7,7);
-        test.put(8,8);
-        test.put(1,1);
-        test.get(5);
-        test.get(8);
-        test.get(6);
-        test.get(7);
-        test.get(6);
-        test.put(2,2);
+    public Integer get(int key) {
+        if (!records.containsKey(key)) {
+            return -1;
+        }
+        Node node = records.get(key);
+        node.times++;
+        NodeList curNodeList = heads.get(node);
+        move(node, curNodeList);
+        return node.value;
     }
 
-}
+    // 节点的数据结构
+    static class Node {
+        public Integer key;
+        public Integer value;
+        public Integer times; // 这个节点发生get或者set的次数总和
+        public Node up; // 节点之间是双向链表所以有上一个节点
+        public Node down;// 节点之间是双向链表所以有下一个节点
 
-class CacheUnit{
-    int use;
-    int key;
-    int val;
+        public Node(int key, int value, int times) {
+            this.key = key;
+            this.value = value;
+            this.times = times;
+        }
+    }
 
-    public CacheUnit(int key, int val) {
-        this.key = key;
-        this.val = val;
-        this.use = 1;
+    // 桶结构
+    static class NodeList {
+        public Node head; // 桶的头节点
+        public Node tail; // 桶的尾节点
+        public NodeList last; // 桶之间是双向链表所以有前一个桶
+        public NodeList next; // 桶之间是双向链表所以有后一个桶
+
+        public NodeList(Node node) {
+            head = node;
+            tail = node;
+        }
+
+        // 把一个新的节点加入这个桶，新的节点都放在顶端变成新的头部
+        public void addNodeFromHead(Node newHead) {
+            newHead.down = head;
+            head.up = newHead;
+            head = newHead;
+        }
+
+        // 判断这个桶是不是空的
+        public boolean isEmpty() {
+            return head == null;
+        }
+
+        // 删除node节点并保证node的上下环境重新连接
+        public void deleteNode(Node node) {
+            if (head == tail) {
+                head = null;
+                tail = null;
+            } else {
+                if (node == head) {
+                    head = node.down;
+                    head.up = null;
+                } else if (node == tail) {
+                    tail = node.up;
+                    tail.down = null;
+                } else {
+                    node.up.down = node.down;
+                    node.down.up = node.up;
+                }
+            }
+            node.up = null;
+            node.down = null;
+        }
     }
 }

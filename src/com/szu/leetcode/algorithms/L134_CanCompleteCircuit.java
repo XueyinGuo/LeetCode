@@ -3,7 +3,7 @@ package com.szu.leetcode.algorithms;
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
- *          TODO 效率过低，待优化
+ *
  *          134. 加油站
              在一条环路上有 N 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
 
@@ -16,19 +16,115 @@ package com.szu.leetcode.algorithms;
  * @Date 2021/2/18 23:44
  */
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
 public class L134_CanCompleteCircuit {
+    /*
+    * O(N) + O(1)
+    * 执行时间 1ms 是因为 求解了所有位置，
+    * 有时间可以继续试试求出一个之后直接 return， 必定击败 双百！
+    * */
+    public static int canCompleteCircuit(int[] gas, int[] cost) {
+        boolean[] can = awesome(gas, cost); // 每个位置是否可以转完一圈都求完了
 
-    public int canCompleteCircuit(int[] gas, int[] cost) {
-        int res = -1;
-        new PriorityQueue(new Comparator() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                return 0;
+        for(int i = 0; i < can.length; i++){
+            if(can[i])
+                return i;
+        }
+        return -1;
+    }
+
+    private static boolean[] awesome(int[] gas, int[] distance) {
+        if (distance == null || gas == null || gas.length == 0 || gas.length != distance.length)
+            return null;
+        int length = distance.length;
+        /* 获取纯值数组，直接用此数值判断下一站是否可达 */
+        int init = getPureArrayAndInitIndex(gas, distance, length);
+        /* 如果任何位置都是小于 0 的，那么不用求了，全部不能转一圈 */
+        if (init == -1)
+            return new boolean[length];
+        boolean[] res = new boolean[length];
+
+        int needToConnectHead = 0;
+        int restGas = 0;
+        int head = init, end = init + 1;
+        end = end == length ? 0 : end;
+        restGas = distance[head];
+
+        GoHead:
+        while (end != head) {
+            /*
+             * 剩余的油量够不够取到 end 位置的
+             * */
+            if (restGas + distance[end] < 0) {
+                /* 不够，那么这个位置已经不能转一圈了 */
+//                res[head] = false;
+                /* 倒着找加油站，逆时针 */
+                int nextHead = head - 1 < 0 ? length - 1 : head - 1;
+                while (nextHead != end) {
+                    /* 逆时针的加油站现在能不能连接上 出发点，他的油量够不够到 */
+                    if (distance[nextHead] >= needToConnectHead) { // 够
+                        head = nextHead;
+                        restGas += distance[nextHead] - needToConnectHead; // 给你油，继续从刚才的位置往前冲吧
+                        needToConnectHead = 0;
+                        continue GoHead;
+                    } else if (distance[nextHead] - needToConnectHead < 0) { // 不够
+
+                        needToConnectHead -= distance[nextHead];
+//                        res[nextHead] = false;
+                    }
+                    nextHead = nextHead - 1 < 0 ? length - 1 : nextHead - 1;
+                }
+                if (nextHead == end) // 往前找合适的加油站的时候，找到了现在的 end，也就是当前head冲不到的地方，那么已经任何加油站不可能冲过去了，都不可能转完一圈
+                    return res;
+            } else {
+                restGas += distance[end];
+                end++;
+                end = end == length ? 0 : end;
             }
-        });
+        }
+        /*
+         * 有一个加油站可以转完一圈
+         * 现在我们只需要关注 need 就可以了
+         * 只要倒着找加油站的时候，这个加油站能连接上之前的头
+         * 那么这个加油站一定可以玩一圈
+         * */
+        res[head] = true;
+        head = head - 1 < 0 ? length - 1 : head - 1;
+        while (head != end) {
+            if (distance[head] >= needToConnectHead) {
+                needToConnectHead = 0;
+                res[head] = true;
+            } else
+                needToConnectHead -= distance[head];
+            head = head - 1 < 0 ? length - 1 : head - 1;
+        }
+        return res;
+    }
+
+    /* 获取纯值数组，直接放到distance中，而且获取一个初始值大于 0 的位置，从这个位置开始转圈 */
+    private static int getPureArrayAndInitIndex(int[] gas, int[] distance, int length) {
+        int init = -1;
+        for (int i = 0; i < length; i++) {
+            distance[i] = gas[i] - distance[i];
+            if (distance[i] >= 0)
+                init = i;
+        }
+        return init;
+    }
+
+
+
+
+
+
+    /*
+    * =====================
+    * =====================
+    * 以下是垃圾代码，巨他妈垃圾
+    * =====================
+    * =====================
+    * */
+    public int canCompleteCircuitGarbage(int[] gas, int[] cost) {
+        int res = -1;
         // 遍历数组，看看从每个位置出发，能不能到所有的位置
         for(int i = 0; i < gas.length; i++){
             // 开始出发，发车之前邮箱还是 0，
