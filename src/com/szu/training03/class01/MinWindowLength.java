@@ -162,8 +162,8 @@ public class MinWindowLength {
     public static void main(String[] args) {
         MinWindowLength test = new MinWindowLength();
         for (int i = 0; i < 1000000; i++) {
-            String s = LeetCodes.getRandomString(10);
-            String t = LeetCodes.getRandomString(3);
+            String s = LeetCodes.getRandomString(50);
+            String t = LeetCodes.getRandomString(10);
 
             int my = test.minWindowLen(s, t);
             my = my == Integer.MAX_VALUE ? 0 : my;

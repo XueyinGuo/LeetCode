@@ -1,44 +1,46 @@
-package com.szu.leetcode.algorithms;
+package com.szu.training03.class01;
 /*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
  *
  * 460. LFU 缓存
-    请你为 最不经常使用（LFU）缓存算法设计并实现数据结构。
+请你为 最不经常使用（LFU）缓存算法设计并实现数据结构。
 
-    实现 LFUCache 类：
+实现 LFUCache 类：
 
-    LFUCache(int capacity) - 用数据结构的容量 capacity 初始化对象
-    int get(int key) - 如果键存在于缓存中，则获取键的值，否则返回 -1。
-    void put(int key, int value) - 如果键已存在，则变更其值；如果键不存在，请插入键值对。
-    当缓存达到其容量时，则应该在插入新项之前，使最不经常使用的项无效。
-    在此问题中，当存在平局（即两个或更多个键具有相同使用频率）时，应该去除 最近最久未使用 的键。
-    注意「项的使用次数」就是自插入该项以来对其调用 get 和 put 函数的次数之和。使用次数会在对应项被移除后置为 0 。
+LFUCache(int capacity) - 用数据结构的容量 capacity 初始化对象
+int get(int key) - 如果键存在于缓存中，则获取键的值，否则返回 -1。
+void put(int key, int value) - 如果键已存在，则变更其值；如果键不存在，请插入键值对。
+当缓存达到其容量时，则应该在插入新项之前，使最不经常使用的项无效。
+在此问题中，当存在平局（即两个或更多个键具有相同使用频率）时，应该去除 最近最久未使用 的键。
+注意「项的使用次数」就是自插入该项以来对其调用 get 和 put 函数的次数之和。使用次数会在对应项被移除后置为 0 。
 
-    为了确定最不常使用的键，可以为缓存中的每个键维护一个 使用计数器 。使用计数最小的键是最久未使用的键。
+为了确定最不常使用的键，可以为缓存中的每个键维护一个 使用计数器 。使用计数最小的键是最久未使用的键。
 
-    当一个键首次插入到缓存中时，它的使用计数器被设置为 1 (由于 put 操作)。对缓存中的键执行 get 或 put 操作，使用计数器的值将会递增。
+当一个键首次插入到缓存中时，它的使用计数器被设置为 1 (由于 put 操作)。对缓存中的键执行 get 或 put 操作，使用计数器的值将会递增。
  *
- * @Date 2021/5/6 14:27
+ * @Date 2021/5/5 17:36
  */
 
 import java.util.HashMap;
 
-public class L460_LFUCache {
+public class LFUCache {
 
     int capacity;
     int curSize;
     HashMap<Integer, Node> keyToNodeMap;
     HashMap<Node, Bucket> nodeToBucketMap;
     Bucket firstBucket;
+    Bucket lastBucket;
 
-    public L460_LFUCache(int capacity) {
+    public LFUCache(int capacity) {
         this.capacity = capacity;
         this.curSize = 0;
         this.keyToNodeMap = new HashMap<>();
         this.nodeToBucketMap = new HashMap<>();
         firstBucket = new Bucket();
+        lastBucket = firstBucket;
     }
 
     public int get(int key) {
@@ -82,7 +84,7 @@ public class L460_LFUCache {
         if(capacity == 0) {
             return;
         }
-        /* 查看有没有，有的话直接改值， 操作次数 + 1 */
+        /* 查看有没有，有的话直接改值， 修改次数 + 1 */
         Node node = keyToNodeMap.get(key);
         if (node != null) {
             node.val = value;
@@ -92,15 +94,15 @@ public class L460_LFUCache {
         /* 没有当前 key ,真的插入一条记录 */
         Node newNode = new Node(key, value);
         /*
-         * 容量已经足够了，需要删除 频次最低的中，最先加进来的元素
-         *
-         * 删除之后记得 两个map也要删除掉对应的元素
-         * */
+        * 容量已经足够了，需要删除 频次最低的中，最先加进来的元素
+        *
+        * 删除之后记得 两个map也要删除掉对应的元素
+        * */
         if (curSize == capacity) {
             curSize--;
-            Node removedNode = firstBucket.deleteHead();
-            nodeToBucketMap.remove(removedNode);
-            keyToNodeMap.remove(removedNode.key);
+            Node rem = firstBucket.deleteHead();
+            nodeToBucketMap.remove(rem);
+            keyToNodeMap.remove(rem.key);
         }
         if (firstBucket.peek() != null && firstBucket.peek().opTimes != 1)
             firstBucket = Bucket.insertNewHeadBucket(firstBucket);
@@ -225,4 +227,22 @@ public class L460_LFUCache {
         }
     }
 
+}
+
+
+class Test{
+    public static void main(String[] args) {
+        LFUCache cache = new LFUCache(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        cache.get(1);
+        cache.put(3,3);
+        cache.get(2);
+        cache.get(3);
+        cache.put(4,4);
+        cache.get(1);
+        cache.get(3);
+        cache.get(4);
+        System.out.println();
+    }
 }
