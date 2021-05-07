@@ -20,25 +20,72 @@ package com.szu.training03.class04;
 public class EggDrop {
 
     public int superEggDrop(int eggs, int floor) {
-        return violence(eggs, floor);
+//        int[][] dp = new int[eggs+1][floor+1];
+//        return violence(eggs, floor, dp);
+        return violenceDP(eggs, floor);
     }
 
-    public int violence(int eggs, int floor) {
+    private int violenceDP(int eggs, int floor) {
+        int[][] dp = new int[floor + 1][eggs + 1];
+        for (int c = 0; c <= eggs; c++) {
+            dp[1][c] = 1;
+        }
+        for (int r = 1; r <= floor; r++) {
+            dp[r][1] = r;
+        }
+        for (int f = 1; f <= floor; f++) {
+            for (int e = 2; e <= eggs; e++) {
+                dp[f][e] = Integer.MAX_VALUE;
+                for (int i = 1; i <= f; i++) {
+                    int cur = Math.max(dp[i - 1][e - 1], dp[floor - f][e]) + 1;
+                    dp[f][e] = Math.min(dp[f][e], cur);
+                }
+            }
+        }
+        return dp[floor][eggs];
+    }
+
+
+    /*
+     * 超级暴力的解，直接超时
+     * */
+    public int violence(int eggs, int floor, int[][] dp) {
         if (eggs == 1)
             return floor;
         if (floor == 0)
             return 0;
 
+        if (dp[eggs][floor] != 0)
+            return dp[eggs][floor];
+
         int ans = Integer.MAX_VALUE;
         for (int i = 1; i <= floor; i++) {
+            /*
+             * 枚举每个楼层，
+             * 1.如果我当前的楼层碎了鸡蛋，那我就往下找就可以了，那么 i - 1 作为子问题的楼层数，子问题有 i - 1 层楼需要搞定
+             * 2.如果当前楼层没有碎，那么我往上找就好了，剩下的楼层数为 floor - i
+             *
+             * 两个返回值中求出最大的
+             * */
             int cur = Math.max(
-                    violence(eggs - 1, i - 1),
-                    violence(eggs, floor - i)
+                    violence(eggs - 1, i - 1, dp),
+                    violence(eggs, floor - i, dp)
             ) + 1;
+            /*
+             * 然后在所有最大的返回值中求出最小的即为答案
+             * */
             if (cur < ans)
                 ans = cur;
         }
+        dp[eggs][floor] = ans;
         return ans;
     }
 
+
+    public static void main(String[] args) {
+        int eggs = 10;
+        int floor = 100;
+        EggDrop eggDrop = new EggDrop();
+        eggDrop.superEggDrop(eggs, floor);
+    }
 }
