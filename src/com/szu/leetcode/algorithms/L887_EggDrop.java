@@ -1,4 +1,4 @@
-package com.szu.training03.class04;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -17,7 +17,7 @@ package com.szu.training03.class04;
  * @Date 2021/5/7 13:53
  */
 
-public class EggDrop {
+public class L887_EggDrop {
 
     public int superEggDrop(int eggs, int floor) {
         return awesomeDP(eggs, floor);
@@ -164,7 +164,7 @@ public class EggDrop {
     public static void main(String[] args) {
         int eggs = 5;
         int floor = 200;
-        EggDrop eggDrop = new EggDrop();
+        L887_EggDrop eggDrop = new L887_EggDrop();
         int quadrangleOptimization = eggDrop.quadrangleOptimization(eggs, floor);
         int violenceDP = eggDrop.violenceDP(eggs, floor);
         int awesomeDP = eggDrop.awesomeDP(eggs, floor);
