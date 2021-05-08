@@ -31,7 +31,7 @@ public class GasStations {
             int[] distance2 = LeetCodes.copyArray(distance1);
             int[] distance3 = LeetCodes.copyArray(distance1);
 //            int[] ori = LeetCodes.copyArray(distance1);
-            boolean[] res = violencePowOf2(gas, distance1);
+            boolean[] res = violence(gas, distance1);
             boolean[] queueEdition = queueEdition(gas, distance2);
             boolean[] awesome = awesome(gas, distance3);
             for (int j = 0; j < res.length; j++) {
@@ -182,7 +182,7 @@ public class GasStations {
      * =======
      * =======
      * */
-    private static boolean[] violencePowOf2(int[] gas, int[] distance) {
+    private static boolean[] violence(int[] gas, int[] distance) {
 
         if (distance == null || gas == null || gas.length == 0 || gas.length != distance.length)
             return null;

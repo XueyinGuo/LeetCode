@@ -211,7 +211,8 @@ public class LeetCodes {
 
     public static String getRandomString(int len, int maxCharYouWant){
         if (maxCharYouWant > 26 || maxCharYouWant < 1)
-            throw new RuntimeException("Are you out of your FUCKING mind ? 'maxCharYouWant' must in range of [1 ~ 26]!!! And your want is FUCKING [" + maxCharYouWant + "] !!! YOU FUCKING CRAZY BALD OLD MAN !!!");
+            throw new RuntimeException("Are you out of your FUCKING mind ? 'maxCharYouWant' must in range of [1 ~ 26]!!!" +
+                    " And your want is FUCKING [" + maxCharYouWant + "] !!! YOU FUCKING CRAZY BALD OLD MAN !!!");
         Random random = new Random();
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
