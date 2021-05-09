@@ -20,7 +20,7 @@ import com.szu.leetcode.utils.LeetCodes;
 public class Painter {
 
     /*
-     * 最优解
+     * TODO 最优解
      * */
     public int awesome(int[] arr, int num) {
 

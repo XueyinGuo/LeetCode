@@ -22,32 +22,35 @@ package com.szu.training03.class03;
 
 public class HitBricks {
 
-    public int[] hitBricks(int[][] grid, int[][] hits) {
-        if (hits == null || hits.length == 0)
-            return new int[]{};
-
-        int res[] = new int[hits.length];
-        for (int i = 0; i < hits.length; i++) {
-            int hitR = hits[i][0];
-            int hitC = hits[i][1];
-            int hitNum = getHitNum(grid, hitR, hitC);
-            res[i] = hitNum == 0 ? 0 : hitNum - 1;
-        }
-        return res;
-    }
-
-    private int getHitNum(int[][] grid, int r, int c) {
-
-        if (r < 0 || r > grid.length || c < 0 || c > grid[0].length || grid[r][c] == 0)
-            return 0;
-
-        grid[r][c] = 0;
-
-        int ret = 1;
-        int down = getHitNum(grid, r + 1, c);
-        int left = getHitNum(grid, r, c - 1);
-        int right = getHitNum(grid, r, c + 1);
-        return ret;
-    }
+    /*
+    * What a stupid asshole!
+    * */
+//    public int[] hitBricksWrong(int[][] grid, int[][] hits) {
+//        if (hits == null || hits.length == 0)
+//            return new int[]{};
+//
+//        int res[] = new int[hits.length];
+//        for (int i = 0; i < hits.length; i++) {
+//            int hitR = hits[i][0];
+//            int hitC = hits[i][1];
+//            int hitNum = getHitNum(grid, hitR, hitC);
+//            res[i] = hitNum == 0 ? 0 : hitNum - 1;
+//        }
+//        return res;
+//    }
+//
+//    private int getHitNum(int[][] grid, int r, int c) {
+//
+//        if (r < 0 || r > grid.length || c < 0 || c > grid[0].length || grid[r][c] == 0)
+//            return 0;
+//
+//        grid[r][c] = 0;
+//
+//        int ret = 1;
+//        int down = getHitNum(grid, r + 1, c);
+//        int left = getHitNum(grid, r, c - 1);
+//        int right = getHitNum(grid, r, c + 1);
+//        return ret;
+//    }
 
 }
