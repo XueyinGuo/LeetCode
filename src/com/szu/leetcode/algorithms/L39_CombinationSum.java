@@ -21,6 +21,14 @@ import java.util.*;
 
 public class L39_CombinationSum {
 
+
+
+    public static void main(String[] args) {
+        L39_CombinationSum combinationSum = new L39_CombinationSum();
+        List<List<Integer>> lists = combinationSum.combinationSum(new int[]{2, 3, 6, 7}, 7);
+        System.out.println();
+    }
+
     List<List<Integer>> res = new ArrayList<>();
     Set<List<Integer>> set = new HashSet<>();
 
@@ -58,11 +66,4 @@ public class L39_CombinationSum {
         }
 
     }
-
-    public static void main(String[] args) {
-        L39_CombinationSum combinationSum = new L39_CombinationSum();
-        List<List<Integer>> lists = combinationSum.combinationSum(new int[]{2, 3, 6, 7}, 7);
-        System.out.println();
-    }
-
 }

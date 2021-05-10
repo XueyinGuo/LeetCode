@@ -20,11 +20,18 @@ package com.szu.training03.class03;
  * @Date 2021/5/9 17:03
  */
 
+import com.szu.leetcode.utils.LeetCodes;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class HitBricks {
 
     /*
-    * What a stupid asshole!
-    * */
+     * What a stupid asshole!
+     * */
 //    public int[] hitBricksWrong(int[][] grid, int[][] hits) {
 //        if (hits == null || hits.length == 0)
 //            return new int[]{};
@@ -53,4 +60,197 @@ public class HitBricks {
 //        return ret;
 //    }
 
+    public int[] hitBricks(int[][] grid, int[][] hits) {
+        if (grid == null || grid.length == 0 || hits == null || hits.length == 0)
+            return new int[]{};
+        /*
+         * 把所有炮弹打到的地方变成 2【如果不越界的话】
+         * */
+        processHit(grid, hits);
+        UnionFind unionFind = new UnionFind(grid);
+        int[] res = new int[hits.length];
+        for (int i = hits.length - 1; i >= 0; i--) {
+            int preSize = unionFind.getCeilingSize();
+            int r = hits[i][0];
+            int c = hits[i][1];
+            if (grid[r][c] != 2)
+                continue;
+            unionFind.createDot(r, c);
+            unionFind.union(r, c, r - 1, c);
+            unionFind.union(r, c, r, c - 1);
+            unionFind.union(r, c, r + 1, c);
+            unionFind.union(r, c, r, c + 1);
+            int addNum = unionFind.getCeilingSize() - preSize;
+            res[i] = addNum == 0 ? 0 : addNum - 1;
+        }
+        return res;
+    }
+
+    private void processHit(int[][] grid, int[][] hits) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        for (int i = 0; i < hits.length; i++) {
+            int r = hits[i][0];
+            int c = hits[i][1];
+            if (r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] == 1)
+                grid[r][c] = 2;
+        }
+    }
+
+    class UnionFind {
+        /*
+         * 并查集的 代表点表  size表
+         * 此处比较特殊的就是这个 ceilingSize 天花板上的砖块数量
+         * 和
+         * 某个集合是否是接在 天花板上的
+         * */
+        HashMap<Dot, Dot> parentMap;
+        HashMap<Dot, Integer> sizeMap;
+        int ceilingSize;
+        HashMap<Dot, Boolean> ceilingSet;
+        Dot[][] dots;
+
+        public UnionFind(int[][] grid) {
+            parentMap = new HashMap<>();
+            sizeMap = new HashMap<>();
+            ceilingSize = 0;
+            ceilingSet = new HashMap<>();
+            dots = new Dot[grid.length][grid[0].length];
+            /*
+             * 初始化 并查集，所有的 1 自己先成立自己的小集合
+             * */
+            initUnionFind(grid);
+            firstUnion();
+        }
+
+        /*
+         * 刚刚初始化结束之后，现在要把所有的经过炮弹处理之后的剩下的所以 1， 能合并的就合并起来
+         * */
+        private void firstUnion() {
+            for (int i = 0; i < dots.length; i++) {
+                for (int j = 0; j < dots[0].length; j++) {
+                    if (dots[i][j] != null) {
+                        union(i, j, i - 1, j);
+                        union(i, j, i, j - 1);
+                        union(i, j, i + 1, j);
+                        union(i, j, i, j + 1);
+                    }
+                }
+            }
+        }
+
+        private void union(int r1, int c1, int r2, int c2) {
+            /* 判断下标是否越界 */
+            if (isValid(r1, c1) && isValid(r2, c2)) {
+                Dot father1 = findFather(dots[r1][c1]);
+                Dot father2 = findFather(dots[r2][c2]);
+                /* 如果两个点不属于同一个集合 */
+                if (father1 != father2) {
+                    /* 小集合挂在大集合身上 */
+                    Integer size1 = sizeMap.get(father1);
+                    Integer size2 = sizeMap.get(father2);
+
+                    Dot big = size1 > size2 ? father1 : father2;
+                    Dot small = big == father1 ? father2 : father1;
+
+                    parentMap.put(small, big);
+                    sizeMap.put(big, size1 + size2);
+
+                    /*
+                     * 如果一个是接在天花板上的集合，另一个不是，
+                     * 此时需要修改 连接在天花板上的数量了
+                     * 因为有新的砖块通过其他元素粘在了天花板上
+                     * */
+                    boolean contains1 = ceilingSet.get(father1) != null;
+                    boolean contains2 = ceilingSet.get(father2) != null;
+                    if (contains1 ^ contains2) {
+                        if (contains1) {
+                            ceilingSet.put(father2, true);
+                            ceilingSize += size2;
+                        } else {
+                            ceilingSet.put(father1, true);
+                            ceilingSize += size1;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+         * 一路找爹的时候，记得把沿途的路径记下来，然后最后找到最大的爹，把所有爹的爹设置为 大爹
+         * */
+        private Dot findFather(Dot dot) {
+            Dot father = parentMap.get(dot);
+            Queue<Dot> queue = new LinkedList<>();
+            while (father != dot) {
+                queue.add(father);
+                dot = father;
+                father = parentMap.get(dot);
+            }
+            while (!queue.isEmpty()) {
+                parentMap.put(queue.poll(), father);
+            }
+            return father;
+        }
+
+
+        private boolean isValid(int r, int c) {
+            if (r < 0 || r >= dots.length || c < 0 || c >= dots[0].length || dots[r][c] == null)
+                return false;
+            return true;
+        }
+
+        private void initUnionFind(int[][] grid) {
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+                    if (grid[i][j] == 1) {
+                        Dot dot = new Dot();
+                        parentMap.put(dot, dot);
+                        sizeMap.put(dot, 1);
+                        dots[i][j] = dot;
+                    }
+                    /* 如果是 第一行，就是正好接在天花板上的那一行，ceilingSize加一，天花板集合中也放入这个点 */
+                    if (i == 0 && dots[i][j] != null) {
+                        ceilingSet.put(dots[i][j], true);
+                        ceilingSize++;
+                    }
+                }
+            }
+        }
+
+        /*
+         * 指定位置创建 dot
+         * */
+        public void createDot(int r, int c) {
+            if (r >= 0 && r < dots.length && c >= 0 && c < dots[0].length) {
+                Dot dot = new Dot();
+                dots[r][c] = dot;
+                parentMap.put(dot, dot);
+                sizeMap.put(dot, 1);
+                if (r == 0) {
+                    ceilingSize++;
+                    ceilingSet.put(dot, true);
+                }
+            }
+        }
+
+        public int getCeilingSize() {
+            return ceilingSize;
+        }
+    }
+
+    class Dot {
+    }
+
+
+    public static void main(String[] args) {
+
+
+        int[][] grid = LeetCodes.getInputMatrix("[[1,1,1],[0,1,0],[0,0,0]]", 3);
+        int[][] hits = LeetCodes.getInputMatrix("[[0,2],[2,0],[0,1],[1,2]]", 4);
+        HitBricks test = new HitBricks();
+        int[] ints = test.hitBricks(grid, hits);
+        System.out.println();
+
+    }
 }

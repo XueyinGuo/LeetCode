@@ -26,7 +26,8 @@ public class SkipListMap<K extends Comparable<K>, V> {
 
     public void put(K key, V value){
         if (key == null) return;
-        SkipListNode<K, V> less = mostRightLessNodeInTree(key);
+        /* 找到最后一层中，最后一个比当前key小的节点 */
+        SkipListNode<K, V> less = mostRightLessNodeInSkipList(key);
         SkipListNode<K, V> next = less.nextNodes.get(0);
         if (next != null && next.key.compareTo(key) == 0){
             next.value = value;
@@ -78,12 +79,12 @@ public class SkipListMap<K extends Comparable<K>, V> {
 
     private boolean containsKey(K key) {
         if (key == null) return false;
-        SkipListNode<K, V> node = mostRightLessNodeInTree(key);
+        SkipListNode<K, V> node = mostRightLessNodeInSkipList(key);
         SkipListNode<K, V> next = node.nextNodes.get(0);
         return next != null && next.isKeyEqual(key);
     }
 
-    private SkipListNode<K, V> mostRightLessNodeInTree(K key) {
+    private SkipListNode<K, V> mostRightLessNodeInSkipList(K key) {
         SkipListNode<K ,V> cur = head;
         int level = maxLevel;
         while (level >= 0)
@@ -91,6 +92,7 @@ public class SkipListMap<K extends Comparable<K>, V> {
         return cur;
     }
 
+    /* 找到本层中最后一个比当前key小的元素 */
     private SkipListNode<K, V> mostRightLessNodeInLevel(K key, SkipListNode<K, V> cur, int level) {
         SkipListNode<K, V> next = cur.nextNodes.get(level);
         while (next != null && next.isLessKey(key)){

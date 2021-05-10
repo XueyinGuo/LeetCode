@@ -10,23 +10,25 @@ package com.szu.leetcode.utils;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class LeetCodes {
 
     static TreeNode Dummy = new TreeNode();
+    static Scanner scanner = new Scanner(System.in);
 
     /* int数组变成树 */
-    public static TreeNode arrayToTree(int[] arr){
-        if (arr == null || arr.length==0) return null;
+    public static TreeNode arrayToTree(int[] arr) {
+        if (arr == null || arr.length == 0) return null;
         TreeNode root = new TreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
         int index = 1;
-        while (!queue.isEmpty() && index < arr.length){
+        while (!queue.isEmpty() && index < arr.length) {
             TreeNode node = queue.poll();
-            if(index == arr.length) break;
+            if (index == arr.length) break;
             node.left = new TreeNode(arr[index++]);
-            if(index == arr.length) break;
+            if (index == arr.length) break;
             node.right = new TreeNode(arr[index++]);
             queue.add(node.left);
             queue.add(node.right);
@@ -35,28 +37,26 @@ public class LeetCodes {
     }
 
     /* integer 数组变成树 */
-    public static TreeNode integerArrayToTree(Integer[] arr){
-        if (arr == null || arr.length==0) return null;
+    public static TreeNode integerArrayToTree(Integer[] arr) {
+        if (arr == null || arr.length == 0) return null;
         TreeNode root = new TreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
         int index = 1;
         try {
-            while (!queue.isEmpty() && index < arr.length){
+            while (!queue.isEmpty() && index < arr.length) {
                 TreeNode node = queue.poll();
-                if(index == arr.length) break;
-                if (arr[index] == null){
+                if (index == arr.length) break;
+                if (arr[index] == null) {
                     node.left = null;
                     index++;
-                }
-                else
+                } else
                     node.left = new TreeNode(arr[index++]);
-                if(index == arr.length) break;
-                if (arr[index] == null){
+                if (index == arr.length) break;
+                if (arr[index] == null) {
                     node.right = null;
                     index++;
-                }
-                else
+                } else
                     node.right = new TreeNode(arr[index++]);
                 if (node.left == null)
                     queue.add(Dummy);
@@ -67,7 +67,7 @@ public class LeetCodes {
                 else
                     queue.add(node.right);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Can you just give me an legal Integer array ? YOU FUCKING NUTS!!!");
         }
         return root;
@@ -75,18 +75,18 @@ public class LeetCodes {
 
 
     /* 字符数组转成树 */
-    public static TreeNode charArrayToTree(char[] arr){
-        if (arr.length==0 || arr == null) return null;
+    public static TreeNode charArrayToTree(char[] arr) {
+        if (arr.length == 0 || arr == null) return null;
         TreeNode root = TreeNode.charToTreeNode(arr[0]);
         ArrayDeque<TreeNode> queue = new ArrayDeque<>();
         queue.add(root);
         int index = 1;
-        while (!queue.isEmpty() && index < arr.length){
+        while (!queue.isEmpty() && index < arr.length) {
             TreeNode node = queue.poll();
-            if(index == arr.length) break;
+            if (index == arr.length) break;
             node.left = TreeNode.charToTreeNode(arr[index++]);
-            if(index == arr.length) break;
-            node.right =TreeNode.charToTreeNode(arr[index++]);
+            if (index == arr.length) break;
+            node.right = TreeNode.charToTreeNode(arr[index++]);
             queue.add(node.left);
             queue.add(node.right);
         }
@@ -94,8 +94,8 @@ public class LeetCodes {
     }
 
     /* 数组转换为链表 */
-    public static ListNode arrayToListNode(int arr[]){
-        if (arr.length==0 || arr == null) return null;
+    public static ListNode arrayToListNode(int arr[]) {
+        if (arr.length == 0 || arr == null) return null;
         ListNode head = new ListNode(arr[0]);
         ListNode lastInsert = head;
         for (int i = 1; i < arr.length; i++) {
@@ -164,8 +164,8 @@ public class LeetCodes {
         }
         int[][] t = base;
         /* 快速幂， log(n)级别 */
-        while (power != 0){
-            if ((power & 1) != 0){
+        while (power != 0) {
+            if ((power & 1) != 0) {
                 res = matrixMultiplication(res, t);
             }
             t = matrixMultiplication(t, t);
@@ -189,8 +189,8 @@ public class LeetCodes {
     }
 
     /* 先序序列化一棵树 */
-    public static void preOrderedSerialTree(TreeNode root, ArrayList<String> list){
-        if (root == null){
+    public static void preOrderedSerialTree(TreeNode root, ArrayList<String> list) {
+        if (root == null) {
             list.add("#");
             return;
         }
@@ -199,17 +199,17 @@ public class LeetCodes {
         preOrderedSerialTree(root.right, list);
     }
 
-    public static String getRandomString(int len){
+    public static String getRandomString(int len) {
         Random random = new Random();
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
             int c = random.nextInt(5) + 'a';
-            chars[i] = (char)c;
+            chars[i] = (char) c;
         }
         return String.valueOf(chars);
     }
 
-    public static String getRandomString(int len, int maxCharYouWant){
+    public static String getRandomString(int len, int maxCharYouWant) {
         if (maxCharYouWant > 26 || maxCharYouWant < 1)
             throw new RuntimeException("Are you out of your FUCKING mind ? 'maxCharYouWant' must in range of [1 ~ 26]!!!" +
                     " And your want is FUCKING [" + maxCharYouWant + "] !!! YOU FUCKING CRAZY BALD OLD MAN !!!");
@@ -217,8 +217,63 @@ public class LeetCodes {
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
             int c = random.nextInt(maxCharYouWant) + 'a';
-            chars[i] = (char)c;
+            chars[i] = (char) c;
         }
         return String.valueOf(chars);
+    }
+
+    /* 输入一个 leetCode 上的经典 矩阵表示，返回一个 矩阵 */
+    public static int[][] getInputMatrix(String string, int rows) {
+//      [[1,1,1],[0,1,0],[0,0,0]]
+        char[] str = string.toCharArray();
+        ArrayList<Integer> list = new ArrayList<>();
+        int i = 0;
+        while (i < str.length) {
+            while (i < str.length && (str[i] == '[' || str[i] == ',' || str[i] == ']' || str[i] == ' '))
+                i++;
+            if (i == str.length)
+                break;
+            int curNum = 0;
+            while (str[i] >= '0' && str[i] <= '9')
+                curNum = curNum * 10 + str[i++] - '0';
+            list.add(curNum);
+        }
+        int size = list.size();
+        if (size % rows != 0)
+            throw new RuntimeException("GO HOME AND FUCK YOURSELF!!!");
+        int cols = list.size() / rows;
+        int res[][] = new int[rows][cols];
+        int listIndex = 0;
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                res[r][c] = list.get(listIndex++);
+            }
+        }
+        return res;
+    }
+
+    /* 输入一个 leetCode 上的经典 数组表示，返回一个 数组 */
+    public static int[] getInputArray(String string) {
+//      [[1,1,1],[0,1,0],[0,0,0]]
+        char[] str = string.toCharArray();
+        ArrayList<Integer> list = new ArrayList<>();
+        int i = 0;
+        while (i < str.length) {
+            while (i < str.length && (str[i] == '[' || str[i] == ',' || str[i] == ']' || str[i] == ' '))
+                i++;
+            if (i == str.length)
+                break;
+            int curNum = 0;
+            while (str[i] >= '1' && str[i] <= '9')
+                curNum = curNum * 10 + str[i++] - '0';
+            list.add(curNum);
+        }
+        int[] res = new int[list.size()];
+        for (int index = 0; index < res.length; index++) {
+
+            res[index] = list.get(index);
+        }
+        return res;
     }
 }

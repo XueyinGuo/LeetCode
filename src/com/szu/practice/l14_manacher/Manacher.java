@@ -20,7 +20,7 @@ public class Manacher {
             int manacher = manacher(randomString);
             int lenViolence = getLenViolence(randomString);
             if (manacher != lenViolence)
-                System.out.println(manacher == lenViolence);
+                System.out.println("FUCK");
         }
 
     }
