@@ -1,4 +1,4 @@
-package com.szu.training03.class03;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -14,7 +14,7 @@ package com.szu.training03.class03;
 
 import java.util.HashSet;
 
-public class DistinctSubsequence {
+public class L940_DistinctSubsequence {
 
     public static void main(String[] args) {
         String s =
@@ -51,16 +51,18 @@ public class DistinctSubsequence {
 //                }
 //            }
             /*
-            * 经典 二十八
-            * */
+             * 经典 二十八
+             * */
             int index = str[i] - 'a';
             int add = (all + 1 - map[index]);
-
+            if (add < 0)
+                add += 1000000007;
             all += add;
             map[index] += add;
-
+            map[index] %= 1000000007;
+            all %= 1000000007;
         }
-        return all;
+        return all % 1000000007;
     }
 
     /*

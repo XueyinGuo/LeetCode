@@ -42,6 +42,10 @@ public class Test {
         System.out.println(i);
         System.out.println(j);
 
+        System.out.println((int)Math.pow(10, 9));
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(
+                2068888061 % (int)Math.pow(10, 9) + 7);
     }
 
 
