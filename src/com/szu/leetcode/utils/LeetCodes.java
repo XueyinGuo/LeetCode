@@ -265,7 +265,7 @@ public class LeetCodes {
             if (i == str.length)
                 break;
             int curNum = 0;
-            while (str[i] >= '1' && str[i] <= '9')
+            while (str[i] >= '0' && str[i] <= '9')
                 curNum = curNum * 10 + str[i++] - '0';
             list.add(curNum);
         }
