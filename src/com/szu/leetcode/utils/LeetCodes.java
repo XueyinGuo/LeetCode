@@ -259,15 +259,23 @@ public class LeetCodes {
         char[] str = string.toCharArray();
         ArrayList<Integer> list = new ArrayList<>();
         int i = 0;
+        boolean negative = false;
         while (i < str.length) {
             while (i < str.length && (str[i] == '[' || str[i] == ',' || str[i] == ']' || str[i] == ' '))
                 i++;
             if (i == str.length)
                 break;
             int curNum = 0;
+            if (str[i] == '-') {
+                i++;
+                negative = true;
+            }
             while (str[i] >= '0' && str[i] <= '9')
                 curNum = curNum * 10 + str[i++] - '0';
+            if (negative)
+                curNum = -curNum;
             list.add(curNum);
+            negative = false;
         }
         int[] res = new int[list.size()];
         for (int index = 0; index < res.length; index++) {

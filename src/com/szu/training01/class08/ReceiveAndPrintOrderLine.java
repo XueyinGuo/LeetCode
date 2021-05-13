@@ -41,7 +41,7 @@ public class ReceiveAndPrintOrderLine {
             // val - 1 的头失效， 因为有是上一个节点连向了他
             newNode.next = nextHead;
             tail.remove(val);
-            head.remove(val - 1);
+            head.remove(val + 1);
         }
         /* 有 val - 1 结尾的点 */
         if (lastTail != null){

@@ -1,4 +1,4 @@
-package com.szu.training03.class06;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -19,22 +19,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class LongestConsecutive {
+public class L128_LongestConsecutive {
 
     /*
-     * 类似于打印一连串消息的数据结构设计
-     *
-     * 用两个 Map ，一个用做 K：存储连续区间的开始数字 -> V： 连续区间长度
-     *            一个用做 K: 存储每个连续取件的结束数字 -> V：连续区间长度
-     *
-     * 每次都用 遍历到的数字 去两个表中查 ：
-     *   1.是否有比我大一号的开头，如果有那我可以接到这个开头前边
-     *   2.是否有比我小一号的结尾，如果有，那么我可以接到这个结尾后边
-     *
-     * 接进去之后重新计算区间长度，然后删除之前的老头和老尾巴，
-     * 为了防止重复处理，在 set 中记录处理过的数字
-     * */
-
+    * 类似于打印一连串消息的数据结构设计
+    *
+    * 用两个 Map ，一个用做 K：存储连续区间的开始数字 -> V： 连续区间长度
+    *            一个用做 K: 存储每个连续取件的结束数字 -> V：连续区间长度
+    *
+    * 每次都用 遍历到的数字 去两个表中查 ：
+    *   1.是否有比我大一号的开头，如果有那我可以接到这个开头前边
+    *   2.是否有比我小一号的结尾，如果有，那么我可以接到这个结尾后边
+    *
+    * 接进去之后重新计算区间长度，然后删除之前的老头和老尾巴，
+    * 为了防止重复处理，在 set 中记录处理过的数字
+    * */
     public int longestConsecutive(int[] nums) {
         if (nums == null || nums.length == 0)
             return 0;
@@ -80,7 +79,7 @@ public class LongestConsecutive {
         int[] inputArray = LeetCodes.getInputArray("[-7,-1,3,-9,-4,7,-3,2,4,9,4,-9,8,-7,5,-1,-7]");
         int[] ints = LeetCodes.copyArray(inputArray);
         Arrays.sort(ints);
-        LongestConsecutive test = new LongestConsecutive();
+        L128_LongestConsecutive test = new L128_LongestConsecutive();
         int i = test.longestConsecutive(inputArray);
         System.out.println(i);
     }
