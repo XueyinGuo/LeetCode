@@ -46,6 +46,8 @@ public class Test {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
                 2068888061 % (int)Math.pow(10, 9) + 7);
+
+        System.out.println(Integer.MAX_VALUE);
     }
 
 
