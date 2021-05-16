@@ -1,11 +1,11 @@
-package com.szu.leetcode.contest;/*
+package com.szu.leetcode.contest;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
  * @Date 2021/5/15 22:31
  */
 
-import com.szu.leetcode.utils.LeetCodes;
 
 public class L5744_RotateTheBox {
     /*
