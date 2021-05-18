@@ -48,6 +48,7 @@ public class Test {
                 2068888061 % (int)Math.pow(10, 9) + 7);
 
         System.out.println(Integer.MAX_VALUE);
+        System.out.println(Integer.MIN_VALUE);
     }
 
 

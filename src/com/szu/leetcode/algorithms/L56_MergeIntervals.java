@@ -30,7 +30,14 @@ import java.util.List;
 
 public class L56_MergeIntervals {
 
+
     public int[][] merge(int[][] intervals) {
+        /*
+         * 想法是 找到下一个区间的开头 比 上一个区间的结尾 小于等于的 直接合并，
+         * 但是这样的一个问题就是 不能找到完全包住的
+         *
+         * 所以接下来的逻辑更简单，继续比较两个 区间的第二个数， 大的那个放入结果集
+         * */
         if (intervals == null || intervals.length == 0)
             return new int[][]{};
         if (intervals.length == 1)
@@ -40,40 +47,49 @@ public class L56_MergeIntervals {
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0])
+                    return o2[1] - o1[1];
                 return o1[0] - o2[0];
             }
         });
 
-        List<List<Integer>> resList = new ArrayList<>();
+        List<int[]> arrList = new ArrayList<>();
         int i = 0;
         while (i < intervals.length) {
-
+            /*
+            * 目前冲到的最右边界，如果现在来到的区间 小的数字都比 最右边界大，
+            *
+            * 那么就需要手机答案了
+            * */
+            int curMaxRight = intervals[i][1];
             int j = i + 1;
-            while (j < intervals.length && intervals[i][1] >= intervals[j][0]) {
+            while (j < intervals.length) {
+                if (intervals[j][1] > curMaxRight && intervals[j][0] > curMaxRight)
+                    break;
+                /*
+                * 现在来到的其中一个冲过了【或者都没冲过】 最右边界，那么这必定是个重复区间
+                * 扩充最右边界的长度
+                * */
+                curMaxRight = Math.max(curMaxRight, intervals[j][1]);
                 j++;
             }
-
-
-            ArrayList<Integer> list = new ArrayList<>();
-            list.add(intervals[i][0]);
-            list.add(intervals[j - 1][1]);
-            resList.add(list);
+            arrList.add(new int[]{intervals[i][0], curMaxRight});
             i = j;
-
         }
-
-        int[][] res = new int[resList.size()][2];
-        for (int j = 0; j < resList.size(); j++) {
-            res[j][0] = resList.get(j).get(0);
-            res[j][1] = resList.get(j).get(1);
+        int[][] ans = new int[arrList.size()][2];
+        for (int j = 0; j < arrList.size(); j++) {
+            int[] ints = arrList.get(j);
+            ans[j][0] = ints[0];
+            ans[j][1] = ints[1];
         }
-        return res;
+        return ans;
     }
 
 
     public static void main(String[] args) {
-        int[][] inputMatrix = LeetCodes.getInputMatrix("[[1,4],[4,5]]", 2);
+        int[][] inputMatrix = LeetCodes.getInputMatrix("[[1,4],[0,2],[3,5]]", 3);
         L56_MergeIntervals test = new L56_MergeIntervals();
-        test.merge(inputMatrix);
+        int[][] merge = test.merge(inputMatrix);
+        System.out.println();
     }
 }

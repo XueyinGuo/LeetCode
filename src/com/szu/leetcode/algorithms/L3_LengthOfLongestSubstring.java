@@ -21,18 +21,18 @@ public class L3_LengthOfLongestSubstring {
         char[] chars = s.toCharArray();
 
         // 从第一个开始往后找
-        for(int i = 0; i < chars.length; i++){
+        for (int i = 0; i < chars.length; i++) {
             int curLen = 0;
             //
-            for(int j = i; j < chars.length; j++){
+            for (int j = i; j < chars.length; j++) {
                 // 下标 chars[j] - 0 的值是否为 0
                 // 不为0则代表这个字母已经出现在了刚刚的串中
                 // 则进入else 跳出本次循环
 
-                if( mem[chars[j] - 0] == 0){
+                if (mem[chars[j] - 0] == 0) {
                     mem[chars[j] - 0] = 1;
                     curLen++;
-                }else{
+                } else {
                     break;
                 }
             }
@@ -43,9 +43,31 @@ public class L3_LengthOfLongestSubstring {
         return max;
     }
 
+
+    public int lengthOfLongestSubstring2(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+        char[] str = s.toCharArray();
+        int[] map = new int[256];
+
+        for (int i = 0; i < map.length; i++) {
+            map[i] = -1;
+        }
+        int max = 0;
+        int pre = -1;
+        int cur = 0;
+        for (int i = 0; i < str.length; i++) {
+            pre = Math.max(pre, map[str[i]]);
+            cur = i - pre;
+            max = Math.max(cur, max);
+            map[str[i]] = i;
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
-        String s = "sdfasdfasdgdf";
-        System.out.println(new L3_LengthOfLongestSubstring().lengthOfLongestSubstring(s));
+        String s = "pwwkew";
+        System.out.println(new L3_LengthOfLongestSubstring().lengthOfLongestSubstring2(s));
     }
 
 }
