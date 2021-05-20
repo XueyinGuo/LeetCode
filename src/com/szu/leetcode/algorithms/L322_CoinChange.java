@@ -1,41 +1,50 @@
 package com.szu.leetcode.algorithms;
 
+import com.szu.leetcode.utils.LeetCodes;
+
 import java.util.Arrays;
+import java.util.Random;
 
 public class L322_CoinChange {
 
-
+    /*
+     * 贪心超时
+     *
+     * 贪心思路：
+     * 硬币数组排序之后，从最大的硬币开始尝试
+     * 拿最大的硬币拿到不能拿位置
+     * */
     int min = Integer.MAX_VALUE;
 
     public int coinChange(int[] coins, int amount) {
+        min = Integer.MAX_VALUE;
         Arrays.sort(coins);
         coinChange(coins, amount, coins.length - 1, 0);
-        if(min == Integer.MAX_VALUE)
+        if (min == Integer.MAX_VALUE)
             return -1;
         return min;
     }
 
-    public void coinChange(int[] coins, int amount, int index, int curNum){
+    public void coinChange(int[] coins, int amount, int index, int curNum) {
 
-        if(amount == 0){
+        if (amount == 0) {
             min = Math.min(curNum, min);
         }
 
-        if(index == -1 || curNum > min)
+        if (index == -1 || curNum > min)
             return;
-
 
 
         int c = amount / coins[index];
 
-        for(int i = c; i >= 0; i--){
+        for (int i = c; i >= 0; i--) {
             int rest = amount - coins[index] * i;
-            coinChange(coins, rest, index - 1, curNum + i );
+            coinChange(coins, rest, index - 1, curNum + i);
         }
     }
 
 
-//    /*
+    //    /*
 //    * TODO 运行内存超出限制
 //    * */
 //    public int coinChangeUseStupidMemory(int[] coins, int amount) {
@@ -86,17 +95,88 @@ public class L322_CoinChange {
 //    }
 //
 //
-//    /*
-//    * TODO coinChange 动态规划
-//    * */
-//    public int coinChange(int[] coins, int amount) {
-//        return 0;
-//    }
+    /*
+     * TODO coinChange 动态规划
+     * */
+    public int coinChangeDp(int[] coins, int amount) {
+        if (amount == 0)
+            return 0;
+        if (coins == null || coins.length == 0)
+            return -1;
+        Arrays.sort(coins);
+        int rows = coins.length;
+        int[][] dp = new int[rows][amount + 1];
+
+        int min = Integer.MAX_VALUE;
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 1; c <= amount; c++) {
+                dp[r][c] = Integer.MAX_VALUE;
+
+            }
+        }
+        for (int c = 1; c <= amount; c++) {
+            if (c % coins[0] == 0)
+                dp[0][c] = c / coins[0];
+        }
+        min = dp[0][amount];
+        for (int r = 1; r < rows; r++) {
+            for (int c = 1; c <= amount; c++) {
+
+
+                if (c % coins[r] == 0) {
+                    dp[r][c] = c / coins[r];
+                    continue;
+                }
+
+
+                int useCurCoin = Integer.MAX_VALUE;
+                int maxCur = c / coins[r];
+
+                for (int curNum = maxCur; curNum > 0; curNum--) {
+                    int done = curNum * coins[r];
+                    if (dp[r-1][c-done] != Integer.MAX_VALUE){
+                        useCurCoin = dp[r][done] + dp[r-1][c-done];
+                        break;
+                    }
+
+                }
+
+                int notUseCur = dp[r - 1][c];
+
+                dp[r][c] = Math.min(dp[r - 1][c], Math.min(useCurCoin, notUseCur));
+
+            }
+            min = Math.min(min, dp[r][amount]);
+        }
+        if (min == Integer.MAX_VALUE)
+            return -1;
+        return min;
+    }
 
     public static void main(String[] args) {
-        int[] coins = {411,412,413,414,415,416,417,418,419,420,421,422};
-        int amount = 9864;
-        L322_CoinChange coinChange322 = new L322_CoinChange();
-        System.out.println(coinChange322.coinChange(coins, amount));
+
+
+        Random random = new Random();
+        L322_CoinChange test = new L322_CoinChange();
+
+        int[] coins = {186,419,83,408};
+        int money = 6249;
+        System.out.println(test.coinChange(coins, money));
+        System.out.println(test.coinChangeDp(coins, money));
+
+        for (int i = 0; i < 100000; i++) {
+            int[] randomArray = LeetCodes.getRandomArray(5, 200);
+            int amount = random.nextInt(1000);
+            int i1 = test.coinChange(randomArray, amount);
+            int dp = test.coinChangeDp(randomArray, amount);
+            if (i1 != dp) {
+                LeetCodes.printArray(randomArray);
+                System.out.println(amount);
+                System.out.println("violence " + i1);
+                System.out.println("dp " + dp);
+                break;
+            }
+        }
     }
 }

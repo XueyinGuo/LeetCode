@@ -11,38 +11,32 @@ import java.util.List;
 
 public class L14_LongestCommonPrefix {
 
-    public String longestCommonPrefix(String[] strs) {
-        if(strs.length == 0){
-            return null;
-        }
-        int minLen = Integer.MAX_VALUE;
-        List<char[]> charList = new ArrayList<>();
-        for(int i=0; i<strs.length; i++){
-            char[] chars = strs[i].toCharArray();
-            minLen = Math.min(chars.length, minLen);
-            charList.add( chars );
-        }
-        char[] res = new char[minLen];
-        boolean flag = false;
-        for(int i = 0; i<minLen;i++){
-            char cur1 = charList.get(0)[i];
-            for(int j = 1;j<charList.size(); j++){
-                char cur2 = charList.get(j)[i];
-                if(cur1 != cur2){
-                    flag = true;
+    public String longestCommonPrefix(String[] strings) {
+
+        if (strings == null || strings.length == 0)
+            return "";
+        if (strings.length == 1)
+            return strings[0];
+        char[] first = strings[0].toCharArray();
+        int end = first.length;
+        for (int i = 1; i < strings.length; i++) {
+            char[] cur = strings[i].toCharArray();
+            for (int index = 0; index <= end; index++) {
+                if (index == cur.length || index == first.length || first[index] != cur[index]){
+                    end = index - 1;
                     break;
                 }
             }
-            if(flag){
-                break;
-            }
-            res[i] = cur1;
+            if (end == -1)
+                return "";
+
         }
-        return String.valueOf(res);
+        return strings[0].substring(0, end + 1);
     }
 
     public static void main(String[] args) {
-        String[] strings = {"flower", "flow", "flight"};
+        String[] strings = {
+                "","b"};
         System.out.println(new L14_LongestCommonPrefix().longestCommonPrefix(strings));
     }
 }
