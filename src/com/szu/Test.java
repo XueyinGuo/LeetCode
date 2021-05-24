@@ -18,37 +18,74 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class Test {
-    public static void main(String[] args) {
 
-//        Scanner scanner = new Scanner(System.in);
-//
-//        String next = scanner.next();
-//        String substring = next.substring(1, next.length() - 1);
-//        System.out.println(substring);
+    public static Test HOOK;
 
-        ArrayList<Integer> list1 = new ArrayList<>();
+    public void isAlive(){
+        System.out.println("I'm Fucking Alive!");
+    }
 
-        list1.add(1);
-        list1.add(2);
-        list1.add(3);
+    public static void isDied(){
+        System.out.println("I have been Fucked!");
+    }
 
-        ArrayList<Integer> list2 = new ArrayList<>();
-        list2.add(1);
-        list2.add(2);
-        list2.add(3);
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        System.out.println("function finalize() has been called!");
+        HOOK = this;
+    }
 
-        int i = list1.hashCode();
-        int j = list2.hashCode();
-        System.out.println(i);
-        System.out.println(j);
 
-        System.out.println((int)Math.pow(10, 9));
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(
-                2068888061 % (int)Math.pow(10, 9) + 7);
+
+    public static void main(String[] args) throws InterruptedException {
+        HOOK = new Test();
+
+        HOOK = null;
+        System.gc();
+        Thread.sleep(1000);
+        if (HOOK != null){
+            HOOK.isAlive();
+        }else
+           isDied();
+
+        HOOK = null;
+        System.gc();
+        Thread.sleep(1000);
+        if (HOOK != null){
+            HOOK.isAlive();
+        }else
+            isDied();
+
+
+
+        {
+            String s0 = new String("1") + new String("1");
+            String s2 = s0.intern();
+            String s1 = "11";
+			System.out.println(s2 ==s0);//false
+			System.out.println(s2 ==s1);//true
+			System.out.println(s0 ==s1);//false
+			System.out.println("====");
+        };
+        String s0 = new String("1") + new String("x");
+		String s2 = s0.intern();
+		String s1 = "1x";
+		System.out.println(s2 == s0);//true
+		System.out.println(s2 == s1);//true
+		System.out.println(s0 == s1);//true
+		System.out.println("===");
+		String s3 = new String("1") + new String("x");
+		String s5 = s3.intern();
+		String s4 = "1x";
+		System.out.println(s5 == s3);//false//前面已经存在字符串常量1x指向s0，s5指向的就是s0
+		System.out.println(s5 == s4);//true
+		System.out.println(s3 == s4);//flase//前面已经存在字符串常量1x指向s0，s4指向的就是s0
+		System.out.println(s5 == s0);//true
+		System.out.println(s4 == s0);//true
+		System.out.println("===");
 
         System.out.println(Integer.MAX_VALUE);
-        System.out.println(Integer.MIN_VALUE);
     }
 
 
