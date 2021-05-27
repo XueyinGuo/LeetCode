@@ -32,6 +32,9 @@ public class L64_MinPathSum {
     }
 
     private int findMinPath(int[][] grid, int r, int c, int[][] dp) {
+        /*
+        * 只有最下角的时候返回格子的值
+        * */
         if (r == grid.length-1 && c == grid[0].length-1){
             dp[r][c] = grid[r][c];
             return grid[r][c];
