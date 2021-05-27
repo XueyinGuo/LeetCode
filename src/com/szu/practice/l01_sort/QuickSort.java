@@ -1,4 +1,5 @@
-package com.szu.practice.l01_sort;/*
+package com.szu.practice.l01_sort;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
@@ -16,13 +17,13 @@ public class QuickSort {
 
     private static void quickSort(int[] arr, int low, int high) {
         if (low < high){
-            int index = find(arr, low, high);
+            int index = partion(arr, low, high);
             quickSort(arr, low, index - 1);
             quickSort(arr, index + 1, high);
         }
     }
 
-    private static int find(int[] arr, int low, int high) {
+    private static int partion(int[] arr, int low, int high) {
         int tem = arr[low];
         while(low < high){
             while (low < high && arr[high] > tem) high--;
