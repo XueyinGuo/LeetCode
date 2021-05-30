@@ -45,7 +45,7 @@ public class L127_WordLadder {
         HashMap<String, Integer> distanceMap = new HashMap<>();
         Queue<String> queue = new LinkedList<>();
 
-        distanceMap.put(beginWord, 0);
+        distanceMap.put(beginWord, 1);
         queue.add(beginWord);
 
         while (!queue.isEmpty()){
