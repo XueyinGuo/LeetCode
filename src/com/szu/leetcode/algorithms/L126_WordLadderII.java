@@ -1,24 +1,16 @@
-package com.szu.training01.class05;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
  *
- * 给定两个字符串，记为 start 和 no ,在给定一个字符串列表 list，list中一定包含 to，
- * list中没有重复字符串，而且所有的字符串都是小写字母组成
- *
- *
- * 规定：start每次只能改变一个字符，最终的目标是 彻底变成 to,但是每次变成新的字符串必须在 list中存在
- *
- * 请返回所有的最短变换路径
- *
- * 例如：start="abc", to="cab", list={"cab",“acc”,“cbc”,“ccc”,“cac”,“cbb”,“aab”,“abb”}
- * 转换路径的方法有很多种，，但所有最短的路径转换如下：
- *
- * abc -> cbc -> cac -> cab
- * abc -> cbc -> cbb -> cab
- * abc -> abb -> cbb -> cab
- * abc -> abb -> aab -> cab
+126. 单词接龙 II
+按字典 wordList 完成从单词 beginWord 到单词 endWord 转化，一个表示此过程的 转换序列 是形式上像 beginWord -> s1 -> s2 -> ... -> sk 这样的单词序列，并满足：
+
+每对相邻的单词之间仅有单个字母不同。
+转换过程中的每个单词 si（1 <= i <= k）必须是字典 wordList 中的单词。注意，beginWord 不必是字典 wordList 中的单词。
+sk == endWord
+给你两个单词 beginWord 和 endWord ，以及一个字典 wordList 。请你找出并返回所有从 beginWord 到 endWord 的 最短转换序列 ，如果不存在这样的转换序列，返回一个空列表。每个序列都应该以单词列表 [beginWord, s1, s2, ..., sk] 的形式返回。
  *
  *
  * @Date 2021/4/16 19:10
@@ -26,7 +18,7 @@ package com.szu.training01.class05;
 
 import java.util.*;
 
-public class WordMinPaths {
+public class L126_WordLadderII {
 
     public static void main(String[] args) {
         String start = "hot";

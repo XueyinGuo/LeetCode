@@ -87,7 +87,7 @@ public class L56_MergeIntervals {
 
 
     public static void main(String[] args) {
-        int[][] inputMatrix = LeetCodes.getInputMatrix("[[1,4],[0,2],[3,5]]", 3);
+        int[][] inputMatrix = LeetCodes.getInputMatrix("[[1,4],[0,2],[3,5]]");
         L56_MergeIntervals test = new L56_MergeIntervals();
         int[][] merge = test.merge(inputMatrix);
         System.out.println();

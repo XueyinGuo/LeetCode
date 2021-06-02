@@ -55,6 +55,6 @@ public class L64_MinPathSum {
 
     public static void main(String[] args) {
         L64_MinPathSum test = new L64_MinPathSum();
-        test.minPathSum(LeetCodes.getInputMatrix("[[1,3,1],[1,5,1],[4,2,1]]", 3));
+        test.minPathSum(LeetCodes.getInputMatrix("[[1,3,1],[1,5,1],[4,2,1]]"));
     }
 }

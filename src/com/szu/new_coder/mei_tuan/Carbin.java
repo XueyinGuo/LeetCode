@@ -1,4 +1,5 @@
-package com.szu.new_coder.mei_tuan;/*
+package com.szu.new_coder.mei_tuan;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description

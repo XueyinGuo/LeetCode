@@ -25,20 +25,20 @@ public class L127_WordLadder {
         if (!wordList.contains(endWord))
             return 0;
         /*
-        * 首先需要先找到每个 word 的邻居
-        * */
+         * 首先需要先找到每个 word 的邻居
+         * */
         wordList.add(beginWord);
         HashMap<String, List<String>> neighborListMap = getAllWordsNeighbors( wordList);
         /*
-        * 其次计算出每个位置到开头的距离，而且需要有去重的计算
-        * 需要使用宽度优先遍历，来保证每个字符串遇到第一次的时候，
-        * 都是他到开始单词的最短编辑距离
-        * */
+         * 其次计算出每个位置到开头的距离，而且需要有去重的计算
+         * 需要使用宽度优先遍历，来保证每个字符串遇到第一次的时候，
+         * 都是他到开始单词的最短编辑距离
+         * */
         return bfs(beginWord, neighborListMap, endWord);
         /*
-        * 第一次遇到endWord的时候就可以返回了
-        * 如果一直没碰到再返回0
-        * */
+         * 第一次遇到endWord的时候就可以返回了
+         * 如果一直没碰到再返回0
+         * */
     }
 
     private static int bfs(String beginWord, HashMap<String, List<String>> neighborListMap, String endWord) {
@@ -98,9 +98,9 @@ public class L127_WordLadder {
     public static void main(String[] args) {
         String begin = "hit";
         String end = "cog";
-        String[] words = {"hot","dot","dog","lot","log"};
+        String[] words = {"hot","dot","dog","lot","log","cog"};
         List<String> wordList = new LinkedList<>();
         Collections.addAll(wordList, words);
-        ladderLength(begin, end, wordList);
+        System.out.println(ladderLength(begin, end, wordList));
     }
 }

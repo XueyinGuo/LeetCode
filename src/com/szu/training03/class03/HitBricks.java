@@ -246,8 +246,8 @@ public class HitBricks {
     public static void main(String[] args) {
 
 
-        int[][] grid = LeetCodes.getInputMatrix("[[1,1,1],[0,1,0],[0,0,0]]", 3);
-        int[][] hits = LeetCodes.getInputMatrix("[[0,2],[2,0],[0,1],[1,2]]", 4);
+        int[][] grid = LeetCodes.getInputMatrix("[[1,1,1],[0,1,0],[0,0,0]]");
+        int[][] hits = LeetCodes.getInputMatrix("[[0,2],[2,0],[0,1],[1,2]]");
         HitBricks test = new HitBricks();
         int[] ints = test.hitBricks(grid, hits);
         System.out.println();

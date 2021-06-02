@@ -1,4 +1,5 @@
-package com.szu.training02.class01;/*
+package com.szu.training02.class01;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description

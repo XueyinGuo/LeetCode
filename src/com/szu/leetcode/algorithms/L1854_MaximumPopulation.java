@@ -68,7 +68,7 @@ public class L1854_MaximumPopulation {
 
 
     public static void main(String[] args) {
-        int[][] inputMatrix = LeetCodes.getInputMatrix("[[1993,1999],[2000,2010]]", 2);
+        int[][] inputMatrix = LeetCodes.getInputMatrix("[[1993,1999],[2000,2010]]");
         L1854_MaximumPopulation test = new L1854_MaximumPopulation();
         System.out.println(test.maximumPopulation(inputMatrix));
     }

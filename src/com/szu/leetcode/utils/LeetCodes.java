@@ -223,29 +223,39 @@ public class LeetCodes {
     }
 
     /* 输入一个 leetCode 上的经典 矩阵表示，返回一个 矩阵 */
-    public static int[][] getInputMatrix(String string, int rows) {
+    public static int[][] getInputMatrix(String string) {
 //      [[1,1,1],[0,1,0],[0,0,0]]
         char[] str = string.toCharArray();
         ArrayList<Integer> list = new ArrayList<>();
-        int i = 0;
-        while (i < str.length) {
-            while (i < str.length && (str[i] == '[' || str[i] == ',' || str[i] == ']' || str[i] == ' '))
+        int i = 1;
+        int d = 0;
+        boolean negative = false;
+        while (i < str.length - 1) {
+            while (i < str.length - 1 && (str[i] == '[' || str[i] == ',' || str[i] == ']' || str[i] == ' ')) {
+                if (str[i] == ']')
+                    d++;
                 i++;
-            if (i == str.length)
+            }
+            if (str[i] == '-') {
+                i++;
+                negative = true;
+            }
+            if (i == str.length - 1)
                 break;
             int curNum = 0;
             while (str[i] >= '0' && str[i] <= '9')
                 curNum = curNum * 10 + str[i++] - '0';
+            if (negative)
+                curNum = -curNum;
+            negative = false;
             list.add(curNum);
         }
-        int size = list.size();
-        if (size % rows != 0)
-            throw new RuntimeException("GO HOME AND FUCK YOURSELF!!!");
-        int cols = list.size() / rows;
-        int res[][] = new int[rows][cols];
+
+        int cols = list.size() / d;
+        int res[][] = new int[d][cols];
         int listIndex = 0;
 
-        for (int r = 0; r < rows; r++) {
+        for (int r = 0; r < d; r++) {
             for (int c = 0; c < cols; c++) {
                 res[r][c] = list.get(listIndex++);
             }
