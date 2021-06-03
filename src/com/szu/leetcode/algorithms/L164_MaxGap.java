@@ -1,4 +1,4 @@
-package com.szu.training02.class03;
+package com.szu.leetcode.algorithms;
 /*
  * @Author 郭学胤
  * @University 深圳大学
@@ -17,7 +17,7 @@ import com.szu.leetcode.utils.LeetCodes;
 
 import java.util.Arrays;
 
-public class MaxGap {
+public class L164_MaxGap {
 
     private static int maxGap(int[] arr) {
         if (arr == null || arr.length == 0)
