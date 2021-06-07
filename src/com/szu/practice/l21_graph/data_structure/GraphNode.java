@@ -1,4 +1,4 @@
-package com.szu.practice.l21_graph;
+package com.szu.practice.l21_graph.data_structure;
 /*
  * @Author 郭学胤
  * @University 深圳大学
