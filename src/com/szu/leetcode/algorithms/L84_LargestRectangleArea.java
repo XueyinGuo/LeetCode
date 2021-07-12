@@ -14,6 +14,7 @@ package com.szu.leetcode.algorithms;
 
 import com.szu.leetcode.utils.LeetCodes;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 
 public class L84_LargestRectangleArea {
@@ -50,12 +51,12 @@ public class L84_LargestRectangleArea {
                     w = i;
                 else
                     /*
-                    * ================================
-                    * ================================
-                    * 下标换算 搞死你爹了！
-                    * ================================
-                    * ================================
-                    * */
+                     * ================================
+                     * ================================
+                     * 下标换算 搞死你爹了！
+                     * ================================
+                     * ================================
+                     * */
                     w = i - stack.peekLast() - 1;
 
                 max = Math.max(max, w * h);
@@ -83,8 +84,36 @@ public class L84_LargestRectangleArea {
 
 
     public static void main(String[] args) {
-        int[] inputArray = LeetCodes.getInputArray("[0,3,2]");
+        int[] inputArray = LeetCodes.getInputArray("[5,4,1,2]");
         L84_LargestRectangleArea test = new L84_LargestRectangleArea();
         System.out.println(test.largestRectangleArea(inputArray));
+        System.out.println(test.largestRectangleAreaV2(inputArray));
     }
+
+
+    public int largestRectangleAreaV2(int[] heights) {
+        if (heights == null || heights.length == 0) {
+            return 0;
+        }
+        int max = 0;
+        int length = heights.length;
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+        for (int i = 0; i < heights.length; i++) {
+            while (!queue.isEmpty() && heights[queue.peekLast()] > heights[i]) {
+                Integer index = queue.pollLast();
+                if (!queue.isEmpty())
+                    max = Math.max((i - queue.peekLast() - 1) * heights[index], max);
+                else
+                    max = Math.max(i * heights[index], max);
+            }
+            queue.addLast(i);
+        }
+        while (queue.size() > 1) {
+            Integer index = queue.pollLast();
+            max = Math.max((length - queue.peekLast() - 1) * heights[index], max);
+        }
+        max = Math.max((length) * heights[queue.pollLast()], max);
+        return max;
+    }
+
 }
