@@ -1,9 +1,12 @@
-package com.szu.leetcode.algorithms;/*
+package com.szu.leetcode.algorithms;
+/*
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
  * @Date 2021/4/16 14:28
  */
+
+import com.szu.leetcode.utils.LeetCodes;
 
 public class L300_LongestIncreaseSubArray {
 
@@ -93,5 +96,9 @@ public class L300_LongestIncreaseSubArray {
         return dp;
     }
 
+    public static void main(String[] args) {
+        L300_LongestIncreaseSubArray test = new L300_LongestIncreaseSubArray();
+        test.lengthOfLIS(LeetCodes.getInputArray("[8,8,8]"));
+    }
 
 }
