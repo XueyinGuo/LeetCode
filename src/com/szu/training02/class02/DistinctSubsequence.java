@@ -61,7 +61,7 @@ public class DistinctSubsequence {
 
         dp[0][0] = str[0] == des[0] ? 1 : 0;
         for (int r = 1; r < rows; r++) {
-            dp[r][0] = dp[r-1][0];
+            dp[r][0] = dp[r - 1][0];
             if (str[r] == des[0])
                 dp[r][0]++;
 
@@ -91,8 +91,8 @@ public class DistinctSubsequence {
     }
 
     /*
-    * right 代码
-    * */
+     * right 代码
+     * */
     public static int numDistinct(String S, String T) {
         char[] s = S.toCharArray();
         char[] t = T.toCharArray();

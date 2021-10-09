@@ -3,6 +3,9 @@ package com.szu.practice.l08_kmp;
  * @Author 郭学胤
  * @University 深圳大学
  * @Description
+ *
+ *      给出两颗二叉树，大树中是否有完全一样的小树
+ *
  * @Date 2021/3/21 17:31
  */
 
