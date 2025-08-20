@@ -28,12 +28,14 @@ public class L6_Convert {
         new L6_Convert().convert(s, numRows);
     }
 
+
     public String convert(String s, int numRows) {
         if(s == null || s.length() == 0) new String();
         // 准备一个 numRows 行的 ArrayList 数组
         ArrayList[] lists =  new ArrayList[numRows];
         for (int i = 0; i < numRows; i++) {
             lists[i] = new ArrayList<Character>();
+            System.out.println("");
         }
         char[] str = s.toCharArray();
         // 这个东西负责控制数组向上还是向下移动，控制 |/| 的移动轨迹
